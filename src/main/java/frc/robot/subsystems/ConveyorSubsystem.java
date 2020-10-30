@@ -7,31 +7,30 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import edu.wpi.first.wpilibj.PWMVictorSPX;
 
-public class PneumaticSubsystem extends SubsystemBase {
+public class ConveyorSubsystem extends SubsystemBase {
   /**
-   * Creates a new PneumaticSubsystem.
+   * Creates a new ConveyorSubsystem.
    */
+  public PWMVictorSPX conveyorMotor = new PWMVictorSPX(Constants.CONVEYOR_MOTOR);
 
-  public Solenoid Sol = new Solenoid(Constants.PCM_CAN_ID, Constants.TRANSMISSION_SOLENOID);
-
-  public PneumaticSubsystem() {
+  public ConveyorSubsystem() {
 
   }
 
-  public void setHighGear(){
-    Sol.set(true);
+  public void upConveyor(){
+    conveyorMotor.set(.4);
   }
 
-  public void setLowGear(){
-    Sol.set(false);
+  public void downConveyor(){
+    conveyorMotor.set(-.4);
   }
 
-  public boolean getSolStatus(){
-    return Sol.get();
+  public void stopConveyor(){
+    conveyorMotor.set(0);
   }
 
   @Override

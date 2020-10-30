@@ -9,11 +9,14 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import frc.robot.subsystems.ConveyorSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.PneumaticSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.Button;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.commands.ConveyorUpCommand;
+import frc.robot.commands.ConveyorDownCommand;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.PneumaticCommand;
 import frc.robot.Constants;
@@ -28,6 +31,7 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final DriveSubsystem m_drivesubsystem = new DriveSubsystem();
   private final PneumaticSubsystem m_pneumaticsubsystem = new PneumaticSubsystem();
+  private final ConveyorSubsystem m_conveyorsubsystem = new ConveyorSubsystem();
 
 
   GenericHID driverController = new XboxController(Constants.DRIVE_CONTROLLER);
@@ -58,7 +62,6 @@ public class RobotContainer {
                                                           () -> driverController.getRawAxis(Constants.DRIVE_LEFT_TRIGGER),
                                                           () -> driverController.getRawAxis(Constants.DRIVE_RIGHT_X_AXIS)));
 
-
   }
 
   /**
@@ -70,6 +73,9 @@ public class RobotContainer {
   private void configureButtonBindings() {
 
     A_Button.whenPressed(new PneumaticCommand(m_pneumaticsubsystem));
+    LB_Button.whileHeld(new ConveyorUpCommand(m_conveyorsubsystem));
+    RB_Button.whileHeld(new ConveyorDownCommand(m_conveyorsubsystem));
+
   }
 
 
