@@ -1,5 +1,5 @@
 /*----------------------------------------------------------------------------*/
-/* Copyright (c) 2018-2019 FIRST. All Rights Reserved.                        */
+/* Copyright (c) 2019 FIRST. All Rights Reserved.                             */
 /* Open Source Software - may be modified and shared by FRC teams. The code   */
 /* must be accompanied by the FIRST BSD license file in the root directory of */
 /* the project.                                                               */
@@ -7,25 +7,27 @@
 
 package frc.robot.commands;
 
-import frc.robot.subsystems.ExampleSubsystem;
+import java.util.function.DoubleSupplier;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.DriveSubsystem;
 
-/**
- * An example command that uses an example subsystem.
- */
-public class ExampleCommand extends CommandBase {
-  @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-  private final ExampleSubsystem m_subsystem;
+public class DriveCommand extends CommandBase {
 
+  private final DriveSubsystem driveSubsystem;
+  private final DoubleSupplier movingForward;
+  private final DoubleSupplier movingBackward;
+  private final DoubleSupplier turning;
   /**
-   * Creates a new ExampleCommand.
-   *
-   * @param subsystem The subsystem used by this command.
+   * Creates a new DriveCommand.
    */
-  public ExampleCommand(ExampleSubsystem subsystem) {
-    m_subsystem = subsystem;
+  public DriveCommand(DriveSubsystem subsystem, DoubleSupplier forward, DoubleSupplier backward, DoubleSupplier rotation) {
+    driveSubsystem = subsystem;
+    movingForward = forward;
+    movingBackward = backward;
+    turning = rotation;
+    
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(subsystem);
   }
 
   // Called when the command is initially scheduled.
@@ -36,6 +38,12 @@ public class ExampleCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+      double xMotion = movingForward.getAsDouble() - movingBackward.getAsDouble(); 
+
+      driveSubsystem.RocketLeagueDrive(xMotion, turning.getAsDouble());
+
+      driveSubsystem.getRightMotorSpeed();
+
   }
 
   // Called once the command ends or is interrupted.
