@@ -7,14 +7,27 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 
 public class PneumaticSubsystem extends SubsystemBase {
   /**
    * Creates a new PneumaticSubsystem.
    */
+
+  public Solenoid Sol = new Solenoid(Constants.PCM_CAN_ID, Constants.TRANSMISSION_SOLENOID);
+
   public PneumaticSubsystem() {
 
+  }
+
+  public void setHighGear(){
+    Sol.set(true);
+  }
+
+  public void setLowGear(){
+    Sol.set(false);
   }
 
   @Override

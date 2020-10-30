@@ -35,4 +35,9 @@ public final class Constants {
     public static final int DRIVE_RIGHT_TRIGGER = 3;
     public static final int DRIVE_RIGHT_X_AXIS = 4;
     public static final int DRIVE_RIGHT_Y_AXIS = 5;
+
+    // Pneumatic constants
+
+    public static final int PCM_CAN_ID = 0;
+    public static final int TRANSMISSION_SOLENOID = 1;
 }
