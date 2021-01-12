@@ -35,7 +35,7 @@ public class AdjustTurretSubsystem extends SubsystemBase {
 
 
   public void LimelightDashboard() {
-    // dum stuff
+    // Acquire values from the network table and label them as variables
     NetworkTableEntry tx = table.getEntry("tx");
     NetworkTableEntry ty = table.getEntry("ty");
     NetworkTableEntry ta = table.getEntry("ta");
@@ -96,16 +96,18 @@ public class AdjustTurretSubsystem extends SubsystemBase {
 
   public void adjustXShooter() {
     double tx = getTX();
-    double Kp = 0.01f;
+    //double Kp = 0.01f;  Currently not using Kp, could in future
     double min_Command = 0.08f;
 
     if (getTV() == 1) {
       double heading_error = -tx;
       double Turret_adjust = 0.0f;
 
-      if (tx > 1  || tx <-1) {
-        Turret_adjust = Math.sin((Math.PI/40)*heading_error);
-      } 
+      if (tx > 12.0) {
+        Turret_adjust = Math.sin((Math.PI/40)*heading_error) - min_Command;
+      } else if(tx < -12.0){
+          Turret_adjust = Math.sin((Math.PI/40)*heading_error) + min_Command;
+      }
 
       setTurretSpeed(-Turret_adjust);
 
@@ -116,7 +118,16 @@ public class AdjustTurretSubsystem extends SubsystemBase {
     } else {
       setTurretSpeed(0.0);
     }
+    }
     
+ 
+// Uses the test controller to manually control the turret
+
+ public void testAdjustXShooter(Double rotation) {
+
+  setTurretSpeed(rotation);
+  SmartDashboard.putNumber("Manual turret x speed", getTX());
+
  }
   
   @Override
