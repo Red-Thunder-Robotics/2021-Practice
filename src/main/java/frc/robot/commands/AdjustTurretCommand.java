@@ -35,7 +35,8 @@ public class AdjustTurretCommand extends CommandBase {
 
     adjustTurretSubsystem.adjustXShooter();
     adjustTurretSubsystem.hasXTarget();
-    //shooterSubsystem.adjustYShooter();
+    adjustTurretSubsystem.adjustYShooter();
+    
 
   }
 
