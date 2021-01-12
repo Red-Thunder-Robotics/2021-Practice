@@ -17,8 +17,6 @@ package frc.robot;
  */
 public final class Constants {
 
-    // ALL CAPS
-
     // Drive motor ports
     public static final int FRONT_LEFT_MOTOR_CAN = 2;
     public static final int FRONT_RIGHT_MOTOR_CAN = 4;
@@ -27,8 +25,7 @@ public final class Constants {
 
     // Controller ID's and axes
 
-    public static final int DRIVE_CONTROLLER = 0;
-
+    public static final int DRIVE_CONTROLLER = 0; // Driver Controller ID
     public static final int DRIVE_LEFT_X_AXIS = 0;
     public static final int DRIVE_LEFT_Y_AXIS = 1;
     public static final int DRIVE_LEFT_TRIGGER = 2;
@@ -36,12 +33,22 @@ public final class Constants {
     public static final int DRIVE_RIGHT_X_AXIS = 4;
     public static final int DRIVE_RIGHT_Y_AXIS = 5;
 
+    public static final int OPERATOR_CONTROLLER = 1; // Operator Controller ID
+    public static final int OPERATOR_X_AXIS = 0;
+    public static final int OPERATOR_Y_AXIS = 1;
+    public static final int OPERATOR_Z_AXIS = 2;
+    public static final int OPERATOR_SLIDER = 3;
+
     // Pneumatic constants
 
     public static final int PCM_CAN_ID = 0;
     public static final int TRANSMISSION_SOLENOID = 1;
 
     // Conveyor motors
+
+    public static final int CONVEYOR_MOTOR = 20;
     
-	public static final int CONVEYOR_MOTOR = 20;
+    //Shooter Motors
+
+    public static final int SHOOTER_X_ADJUST = 42;
 }

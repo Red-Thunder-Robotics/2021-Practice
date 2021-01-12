@@ -8,10 +8,14 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import frc.robot.subsystems.ConveyorSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.PneumaticSubsystem;
+import frc.robot.subsystems.AdjustTurretSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.Button;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -19,6 +23,7 @@ import frc.robot.commands.ConveyorUpCommand;
 import frc.robot.commands.ConveyorDownCommand;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.PneumaticCommand;
+import frc.robot.commands.AdjustTurretCommand;
 import frc.robot.Constants;
 
 /**
@@ -28,13 +33,21 @@ import frc.robot.Constants;
  * (including subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
+
   // The robot's subsystems and commands are defined here...
   private final DriveSubsystem m_drivesubsystem = new DriveSubsystem();
   private final PneumaticSubsystem m_pneumaticsubsystem = new PneumaticSubsystem();
   private final ConveyorSubsystem m_conveyorsubsystem = new ConveyorSubsystem();
+  private final AdjustTurretSubsystem m_adjustturretsubsystem = new AdjustTurretSubsystem();
 
+  Command m_autonomousCommand;
+  SendableChooser<Command> m_chooser = new SendableChooser<>();
 
+  //Create the controllers
   GenericHID driverController = new XboxController(Constants.DRIVE_CONTROLLER);
+
+  GenericHID opjoystick = new Joystick(Constants.OPERATOR_CONTROLLER);
+
 
   // xBox Buttons
 
@@ -49,6 +62,24 @@ public class RobotContainer {
   Button Left_Stick_Button = new JoystickButton(driverController, 9);
   Button Right_Stick_Button = new JoystickButton(driverController, 10);
 
+  //Joystick Buttons
+
+  Button Trigger = new JoystickButton(opjoystick, 1);
+  Button Back_Button_Joystick = new JoystickButton(opjoystick, 2);
+  Button Left_Button_Joystick = new JoystickButton(opjoystick, 3);
+  Button Right_Button_Joystick = new JoystickButton(opjoystick, 4);
+  Button Right_Top_Right_Button = new JoystickButton(opjoystick, 5);
+  Button Right_Top_Middle_Button = new JoystickButton(opjoystick, 6);
+  Button Right_Top_Left_Button = new JoystickButton(opjoystick, 7);
+  Button Right_Bottom_Left_Button = new JoystickButton(opjoystick, 8);
+  Button Right_Bottom_Middle_Button = new JoystickButton(opjoystick, 9);
+  Button Right_Bottom_Right_Buttom = new JoystickButton(opjoystick, 10);
+  Button Left_Top_Left_Button = new JoystickButton(opjoystick, 11);
+  Button Left_Top_Middle_Button = new JoystickButton(opjoystick, 12);
+  Button Left_Top_Right_Button = new JoystickButton(opjoystick, 13);
+  Button Left_Bottom_Right_Button = new JoystickButton(opjoystick, 14);
+  Button Left_Bottom_Middle_Button = new JoystickButton(opjoystick, 15);
+  Button Left_Bottom_Left_Button = new JoystickButton(opjoystick, 16);
 
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
@@ -62,6 +93,12 @@ public class RobotContainer {
                                                           () -> driverController.getRawAxis(Constants.DRIVE_LEFT_TRIGGER),
                                                           () -> driverController.getRawAxis(Constants.DRIVE_RIGHT_X_AXIS)));
 
+
+
+
+    //Creates tab for Autonomous on shuffleboard and selects what is available
+    Shuffleboard.getTab("Autonomous").add(m_chooser);
+                                                   
   }
 
   /**
@@ -75,6 +112,9 @@ public class RobotContainer {
     A_Button.whenPressed(new PneumaticCommand(m_pneumaticsubsystem));
     LB_Button.whileHeld(new ConveyorUpCommand(m_conveyorsubsystem));
     RB_Button.whileHeld(new ConveyorDownCommand(m_conveyorsubsystem));
+    //Make button for Shooting
+    X_Button.whileHeld(new AdjustTurretCommand(m_adjustturretsubsystem));
+    
 
   }
 
@@ -86,6 +126,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return ;
+    return m_chooser.getSelected();
   }
 }
