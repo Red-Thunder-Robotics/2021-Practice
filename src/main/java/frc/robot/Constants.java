@@ -39,6 +39,15 @@ public final class Constants {
     public static final int OPERATOR_Z_AXIS = 2;
     public static final int OPERATOR_SLIDER = 3;
 
+    public static final int TESTING_CONTROLLER = 5;
+    public static final int TEST_LEFT_X_AXIS = 0;
+    public static final int TEST_LEFT_Y_AXIS = 1;
+    public static final int TEST_LEFT_TRIGGER = 2;
+    public static final int TEST_RIGHT_TRIGGER = 3;
+    public static final int TEST_RIGHT_X_AXIS = 4;
+    public static final int TEST_RIGHT_Y_AXIS = 5;
+
+
     // Pneumatic constants
 
     public static final int PCM_CAN_ID = 0;

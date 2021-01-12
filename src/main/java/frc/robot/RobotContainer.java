@@ -23,6 +23,7 @@ import frc.robot.commands.ConveyorUpCommand;
 import frc.robot.commands.ConveyorDownCommand;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.PneumaticCommand;
+import frc.robot.commands.TestTurretAdjustCommand;
 import frc.robot.commands.AdjustTurretCommand;
 import frc.robot.Constants;
 
@@ -47,6 +48,8 @@ public class RobotContainer {
   GenericHID driverController = new XboxController(Constants.DRIVE_CONTROLLER);
 
   GenericHID opjoystick = new Joystick(Constants.OPERATOR_CONTROLLER);
+
+  GenericHID testing = new Joystick(Constants.TESTING_CONTROLLER);
 
 
   // xBox Buttons
@@ -81,6 +84,19 @@ public class RobotContainer {
   Button Left_Bottom_Middle_Button = new JoystickButton(opjoystick, 15);
   Button Left_Bottom_Left_Button = new JoystickButton(opjoystick, 16);
 
+  // xBox test controller buttons
+
+  Button A_button = new JoystickButton(testing, 1);
+  Button B_button = new JoystickButton(testing, 2);
+  Button X_button = new JoystickButton(testing, 3);
+  Button Y_button = new JoystickButton(testing, 4);
+  Button LB_button = new JoystickButton(testing, 5);
+  Button RB_button = new JoystickButton(testing, 6);
+  Button Select_button = new JoystickButton(testing, 7);
+  Button Start_button = new JoystickButton(testing, 8);
+  Button Left_Stick_button = new JoystickButton(testing, 9);
+  Button Right_Stick_button = new JoystickButton(testing, 10);
+
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
    */
@@ -92,7 +108,8 @@ public class RobotContainer {
                                                           () -> driverController.getRawAxis(Constants.DRIVE_RIGHT_TRIGGER), 
                                                           () -> driverController.getRawAxis(Constants.DRIVE_LEFT_TRIGGER),
                                                           () -> driverController.getRawAxis(Constants.DRIVE_RIGHT_X_AXIS)));
-
+    m_adjustturretsubsystem.setDefaultCommand(new TestTurretAdjustCommand(m_adjustturretsubsystem,
+                                                          () -> testing.getRawAxis(Constants.TEST_LEFT_Y_AXIS)));
 
 
 
