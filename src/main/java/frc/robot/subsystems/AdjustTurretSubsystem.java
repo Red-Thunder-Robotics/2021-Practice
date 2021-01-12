@@ -96,7 +96,7 @@ public class AdjustTurretSubsystem extends SubsystemBase {
 
   public void adjustXShooter() {
     double tx = getTX();
-    double Kp = 0.01f;
+    //double Kp = 0.01f;  Currently not using Kp, could in future
     double min_Command = 0.08f;
 
     if (getTV() == 1) {
@@ -124,7 +124,6 @@ public class AdjustTurretSubsystem extends SubsystemBase {
 // Uses the test controller to manually control the turret
 
  public void testAdjustXShooter(Double rotation) {
-  double tx = getTX();
 
   setTurretSpeed(rotation);
   SmartDashboard.putNumber("Manual turret x speed", getTX());
