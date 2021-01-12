@@ -23,11 +23,18 @@ public class AdjustTurretSubsystem extends SubsystemBase {
    * Creates a new ShooterSubsystem.
    */
 
+  public TalonSRX hoodAdjustMotor = new TalonSRX(Constants.HOOD_ADJUST_MOTOR_CAN); 
+  public TalonSRX turret = new TalonSRX(Constants.SHOOTER_X_ADJUST);
+
+  Boolean onTarget;
+
+  
+
+
   public AdjustTurretSubsystem() {
 
   }
   
-  public TalonSRX turret = new TalonSRX(Constants.SHOOTER_X_ADJUST);
 
 
   NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
@@ -94,6 +101,14 @@ public class AdjustTurretSubsystem extends SubsystemBase {
 
   }
 
+
+  //ADJUSTMENT METHODS
+
+
+
+
+
+
   public void adjustXShooter() {
     double tx = getTX();
     //double Kp = 0.01f;  Currently not using Kp, could in future
@@ -115,18 +130,68 @@ public class AdjustTurretSubsystem extends SubsystemBase {
 
       
       
-    } else {
-      setTurretSpeed(0.0);
-    }
+      } else {
+        setTurretSpeed(0.0);
+      }
     }
     
+
+    // Talon encoder has 4096 encoder units per rotation
+    public void adjustYShooter(){
+
+      hoodAdjustMotor.set(ControlMode.Position, 100);
+      hoodAdjustMotor.getSelectedSensorPosition();
+
+      /*
+
+      if(getTV() == 1){
+        if(hoodEncoder.getPosition() > ((((-27 * getTA()) + 560)) + 15)){
+          setCoast();
+          hoodAdjustMotor.set(-0.04);
+        }else if(hoodEncoder.getPosition() < ((((-27 * getTA()) + 560)) - 15)){
+          setCoast();
+          hoodAdjustMotor.set(0.05);
+        }else{
+          hoodAdjustMotor.set(0);
+          setBrake();
+        }
+  
+    
+      }else{
+        setBrake();
+      }
+
+      */
+    }  
  
+    
+
 // Uses the test controller to manually control the turret
 
  public void testAdjustXShooter(Double rotation) {
 
   setTurretSpeed(rotation);
   SmartDashboard.putNumber("Manual turret x speed", getTX());
+
+ }
+
+ public void testAdjustYHood(Double rotation){
+
+  hoodAdjustMotor.set(ControlMode.PercentOutput, rotation);
+  SmartDashboard.putNumber("Hood adjust motor encoder value", hoodAdjustMotor.getSelectedSensorPosition());
+ }
+
+
+ public void displayOnTarget(){ //Displays when the turret is on target
+
+  if(getTX() < 3 && getTX() > -3){
+    if(hoodAdjustMotor.getBusVoltage() == 0){
+      onTarget = true;
+    } else {
+      onTarget = false;
+    }
+  }
+   SmartDashboard.putBoolean("Turret on Target", onTarget);
 
  }
   

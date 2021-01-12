@@ -60,4 +60,7 @@ public final class Constants {
     //Shooter Motors
 
     public static final int SHOOTER_X_ADJUST = 42;
+	public static final int HOOD_ADJUST_MOTOR_CAN = 6;  // Is not wired yet as of making this, need to change based on wiring
+	public static final int FLYWHEEL_RIGHT_CAN = 9;  //These motors are set as 9 and 5 right now, this can change.
+	public static final int FLYWHEEL_LEFT_CAN = 5;
 }

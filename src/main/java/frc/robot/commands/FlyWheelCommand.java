@@ -7,26 +7,17 @@
 
 package frc.robot.commands;
 
-import java.util.function.DoubleSupplier;
-
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.AdjustTurretSubsystem;
+import frc.robot.subsystems.FlywheelSubsystem;
 
-// Plug test controller into port 5, use left Y axis to drive the turret
+public class FlyWheelCommand extends CommandBase {
 
-
-public class TestTurretAdjustCommand extends CommandBase {
-
-  private final AdjustTurretSubsystem adjustTurretSubsystem;
-  private final DoubleSupplier manualRotation;
-  private final DoubleSupplier hoodAdjust;
+  private final FlywheelSubsystem flyWheelSubsystem;
   /**
-   * Creates a new TestTurretAdjustCommand.
+   * Creates a new FlyWheelCommand.
    */
-  public TestTurretAdjustCommand(AdjustTurretSubsystem subsystem, DoubleSupplier rotation, DoubleSupplier hood) {
-    adjustTurretSubsystem = subsystem;
-    manualRotation = rotation;
-    hoodAdjust = hood;
+  public FlyWheelCommand(FlywheelSubsystem subsystem) {
+    flyWheelSubsystem = subsystem;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(subsystem);
   }
@@ -39,13 +30,14 @@ public class TestTurretAdjustCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    adjustTurretSubsystem.testAdjustXShooter(manualRotation.getAsDouble());
-    adjustTurretSubsystem.testAdjustYHood(hoodAdjust.getAsDouble());
+    flyWheelSubsystem.FlyWheelUp();
+    
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    flyWheelSubsystem.FlyWheelOff();
   }
 
   // Returns true when the command should end.

@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import frc.robot.subsystems.ConveyorSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.FlywheelSubsystem;
 import frc.robot.subsystems.PneumaticSubsystem;
 import frc.robot.subsystems.AdjustTurretSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -25,6 +26,7 @@ import frc.robot.commands.DriveCommand;
 import frc.robot.commands.PneumaticCommand;
 import frc.robot.commands.TestTurretAdjustCommand;
 import frc.robot.commands.AdjustTurretCommand;
+import frc.robot.commands.FlyWheelCommand;
 import frc.robot.Constants;
 
 /**
@@ -40,6 +42,7 @@ public class RobotContainer {
   private final PneumaticSubsystem m_pneumaticsubsystem = new PneumaticSubsystem();
   private final ConveyorSubsystem m_conveyorsubsystem = new ConveyorSubsystem();
   private final AdjustTurretSubsystem m_adjustturretsubsystem = new AdjustTurretSubsystem();
+  private final FlywheelSubsystem m_flywheelsubsystem = new FlywheelSubsystem();
 
   Command m_autonomousCommand;
   SendableChooser<Command> m_chooser = new SendableChooser<>();
@@ -86,16 +89,16 @@ public class RobotContainer {
 
   // xBox test controller buttons
 
-  Button A_button = new JoystickButton(testing, 1);
-  Button B_button = new JoystickButton(testing, 2);
-  Button X_button = new JoystickButton(testing, 3);
-  Button Y_button = new JoystickButton(testing, 4);
-  Button LB_button = new JoystickButton(testing, 5);
-  Button RB_button = new JoystickButton(testing, 6);
-  Button Select_button = new JoystickButton(testing, 7);
-  Button Start_button = new JoystickButton(testing, 8);
-  Button Left_Stick_button = new JoystickButton(testing, 9);
-  Button Right_Stick_button = new JoystickButton(testing, 10);
+  Button test_A_button = new JoystickButton(testing, 1);
+  Button test_B_button = new JoystickButton(testing, 2);
+  Button test_X_button = new JoystickButton(testing, 3);
+  Button test_Y_button = new JoystickButton(testing, 4);
+  Button test_LB_button = new JoystickButton(testing, 5);
+  Button test_RB_button = new JoystickButton(testing, 6);
+  Button test_Select_button = new JoystickButton(testing, 7);
+  Button test_Start_button = new JoystickButton(testing, 8);
+  Button test_Left_Stick_button = new JoystickButton(testing, 9);
+  Button test_Right_Stick_button = new JoystickButton(testing, 10);
 
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
@@ -109,7 +112,8 @@ public class RobotContainer {
                                                           () -> driverController.getRawAxis(Constants.DRIVE_LEFT_TRIGGER),
                                                           () -> driverController.getRawAxis(Constants.DRIVE_RIGHT_X_AXIS)));
     m_adjustturretsubsystem.setDefaultCommand(new TestTurretAdjustCommand(m_adjustturretsubsystem,
-                                                          () -> testing.getRawAxis(Constants.TEST_LEFT_Y_AXIS)));
+                                                          () -> testing.getRawAxis(Constants.TEST_LEFT_Y_AXIS),
+                                                          () -> testing.getRawAxis(Constants.TEST_RIGHT_Y_AXIS)));
 
 
 
@@ -131,7 +135,7 @@ public class RobotContainer {
     RB_Button.whileHeld(new ConveyorDownCommand(m_conveyorsubsystem));
     //Make button for Shooting
     X_Button.whileHeld(new AdjustTurretCommand(m_adjustturretsubsystem));
-    
+    Y_Button.toggleWhenPressed(new FlyWheelCommand(m_flywheelsubsystem));
 
   }
 
