@@ -50,12 +50,12 @@ public class RobotContainer {
   //Create the controllers
   GenericHID driverController = new XboxController(Constants.DRIVE_CONTROLLER);
 
-  GenericHID opjoystick = new Joystick(Constants.OPERATOR_CONTROLLER);
+  GenericHID opController = new Joystick(Constants.OPERATOR_CONTROLLER);
 
   GenericHID testing = new Joystick(Constants.TESTING_CONTROLLER);
 
 
-  // xBox Buttons
+  // Driver xBox Buttons
 
   Button A_Button = new JoystickButton(driverController, 1);
   Button B_Button = new JoystickButton(driverController, 2);
@@ -68,7 +68,23 @@ public class RobotContainer {
   Button Left_Stick_Button = new JoystickButton(driverController, 9);
   Button Right_Stick_Button = new JoystickButton(driverController, 10);
 
-  //Joystick Buttons
+
+  // Operator xBox Buttons
+
+  Button OP_A_Button = new JoystickButton(opController, 1);
+  Button OP_B_Button = new JoystickButton(opController, 2);
+  Button OP_X_Button = new JoystickButton(opController, 3);
+  Button OP_Y_Button = new JoystickButton(driverController, 4);
+  Button OP_LB_Button = new JoystickButton(driverController, 5);
+  Button OP_RB_Button = new JoystickButton(driverController, 6);
+  Button OP_Select_Button = new JoystickButton(driverController, 7);
+  Button OP_Start_Button = new JoystickButton(driverController, 8);
+  Button OP_Left_Stick_Button = new JoystickButton(driverController, 9);
+  Button OP_Right_Stick_Button = new JoystickButton(driverController, 10);
+
+  //Joystick Buttons - 1/15 Chose to use xBox controller instead of Thrustmaster
+
+  /*
 
   Button Trigger = new JoystickButton(opjoystick, 1);
   Button Back_Button_Joystick = new JoystickButton(opjoystick, 2);
@@ -86,6 +102,8 @@ public class RobotContainer {
   Button Left_Bottom_Right_Button = new JoystickButton(opjoystick, 14);
   Button Left_Bottom_Middle_Button = new JoystickButton(opjoystick, 15);
   Button Left_Bottom_Left_Button = new JoystickButton(opjoystick, 16);
+
+  */
 
   // xBox test controller buttons
 

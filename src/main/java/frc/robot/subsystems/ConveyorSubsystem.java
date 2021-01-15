@@ -9,28 +9,31 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import edu.wpi.first.wpilibj.PWMVictorSPX;
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+
 
 public class ConveyorSubsystem extends SubsystemBase {
   /**
    * Creates a new ConveyorSubsystem.
    */
-  public PWMVictorSPX conveyorMotor = new PWMVictorSPX(Constants.CONVEYOR_MOTOR);
+
+  public VictorSPX conveyorMotor = new VictorSPX(Constants.CONVEYOR_MOTOR);
 
   public ConveyorSubsystem() {
 
   }
 
   public void upConveyor(){
-    conveyorMotor.set(.4);
+    conveyorMotor.set(ControlMode.PercentOutput, .4);
   }
 
   public void downConveyor(){
-    conveyorMotor.set(-.4);
+    conveyorMotor.set(ControlMode.PercentOutput, -.4);
   }
 
   public void stopConveyor(){
-    conveyorMotor.set(0);
+    conveyorMotor.set(ControlMode.PercentOutput, 0);
   }
 
   @Override

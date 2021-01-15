@@ -41,6 +41,7 @@ public class TestTurretAdjustCommand extends CommandBase {
   public void execute() {
     adjustTurretSubsystem.testAdjustXShooter(manualRotation.getAsDouble());
     adjustTurretSubsystem.testAdjustYHood(hoodAdjust.getAsDouble());
+    adjustTurretSubsystem.LimelightDashboard();
   }
 
   // Called once the command ends or is interrupted.

@@ -28,6 +28,8 @@ public class DriveCommand extends CommandBase {
     turning = rotation;
     
     // Use addRequirements() here to declare subsystem dependencies.
+
+    addRequirements(subsystem);
   }
 
   // Called when the command is initially scheduled.
