@@ -13,15 +13,14 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 
-public class ConveyorSubsystem extends SubsystemBase {
+public class Stage12ConveyorSubsystem extends SubsystemBase {
   /**
    * Creates a new ConveyorSubsystem.
    */
   public VictorSPX stage1Motor = new VictorSPX(Constants.STAGE_1_MOTOR);
   public VictorSPX stage2Motor = new VictorSPX(Constants.STAGE_2_MOTOR);
-  public VictorSPX stage3Motor = new VictorSPX(Constants.STAGE_3_MOTOR);
 
-  public ConveyorSubsystem() {
+  public Stage12ConveyorSubsystem() {
 
   }
   public void stage1Conveyor(double speed){
@@ -34,10 +33,7 @@ public class ConveyorSubsystem extends SubsystemBase {
 
   }
 
-  public void stage3Conveyor(double speed){
-    stage3Motor.set(ControlMode.PercentOutput, speed);
-
-  }
+ 
 
 
 

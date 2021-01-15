@@ -10,16 +10,16 @@ package frc.robot.commands.Conveyor;
 import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.ConveyorSubsystem;
+import frc.robot.subsystems.Stage12ConveyorSubsystem;
 
 public class Stage12ConveyorCommand extends CommandBase {
 
-  private final ConveyorSubsystem conveyorSubsystem;
+  private final Stage12ConveyorSubsystem conveyorSubsystem;
   private final DoubleSupplier speed;
   /**
    * Creates a new Stage12ConveyorCommand.
    */
-  public Stage12ConveyorCommand(ConveyorSubsystem subsystem, DoubleSupplier rawspeed) {
+  public Stage12ConveyorCommand(Stage12ConveyorSubsystem subsystem, DoubleSupplier rawspeed) {
     conveyorSubsystem = subsystem;
     speed = rawspeed;
     // Use addRequirements() here to declare subsystem dependencies.

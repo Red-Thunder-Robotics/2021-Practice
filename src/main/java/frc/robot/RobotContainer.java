@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import frc.robot.subsystems.ConveyorSubsystem;
+import frc.robot.subsystems.Stage12ConveyorSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.FlywheelSubsystem;
 import frc.robot.subsystems.PneumaticSubsystem;
@@ -39,7 +39,7 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final DriveSubsystem m_drivesubsystem = new DriveSubsystem();
   private final PneumaticSubsystem m_pneumaticsubsystem = new PneumaticSubsystem();
-  private final ConveyorSubsystem m_conveyorsubsystem = new ConveyorSubsystem();
+  private final Stage12ConveyorSubsystem m_stage12conveyorsubsystem = new Stage12ConveyorSubsystem();
   private final AdjustTurretSubsystem m_adjustturretsubsystem = new AdjustTurretSubsystem();
   private final FlywheelSubsystem m_flywheelsubsystem = new FlywheelSubsystem();
 
@@ -131,8 +131,9 @@ public class RobotContainer {
     m_adjustturretsubsystem.setDefaultCommand(new TestTurretAdjustCommand(m_adjustturretsubsystem,
                                                           () -> testing.getRawAxis(Constants.TEST_LEFT_Y_AXIS),
                                                           () -> testing.getRawAxis(Constants.TEST_RIGHT_Y_AXIS)));
-    m_conveyorsubsystem.setDefaultCommand(new Stage12ConveyorCommand(m_conveyorsubsystem, 
+    m_stage12conveyorsubsystem.setDefaultCommand(new Stage12ConveyorCommand(m_stage12conveyorsubsystem, 
                                                           () -> opController.getRawAxis(Constants.OPERATOR_LEFT_Y_AXIS)));
+    
             
 
 

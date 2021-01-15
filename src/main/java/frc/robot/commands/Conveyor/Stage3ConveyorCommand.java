@@ -7,13 +7,21 @@
 
 package frc.robot.commands.Conveyor;
 
+import java.util.function.DoubleSupplier;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.Stage3ConveyorSubsystem;
 
 public class Stage3ConveyorCommand extends CommandBase {
+
+  private final Stage3ConveyorSubsystem stage3ConveyorSubsystem;
+  private final DoubleSupplier speed;
   /**
    * Creates a new Stage3ConveyorCommand.
    */
-  public Stage3ConveyorCommand() {
+  public Stage3ConveyorCommand(Stage3ConveyorSubsystem subsystem, DoubleSupplier rawspeed) {
+    stage3ConveyorSubsystem = subsystem;
+    speed = rawspeed;
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -25,6 +33,7 @@ public class Stage3ConveyorCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    stage3ConveyorSubsystem.stage3Conveyor(speed.getAsDouble());
   }
 
   // Called once the command ends or is interrupted.
