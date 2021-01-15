@@ -5,23 +5,16 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
+package frc.robot.commands.Conveyor;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.ConveyorSubsystem;
 
-public class ConveyorUpCommand extends CommandBase {
+public class Stage3ConveyorCommand extends CommandBase {
   /**
-   * Creates a new ConveryorUpCommand.
+   * Creates a new Stage3ConveyorCommand.
    */
-
-  private final ConveyorSubsystem conveyorsubsystem;
-  
-  public ConveyorUpCommand(ConveyorSubsystem subsystem) {
-
-    conveyorsubsystem = subsystem;
+  public Stage3ConveyorCommand() {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(conveyorsubsystem);
   }
 
   // Called when the command is initially scheduled.
@@ -32,13 +25,11 @@ public class ConveyorUpCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    conveyorsubsystem.upConveyor();
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    conveyorsubsystem.stopConveyor();
   }
 
   // Returns true when the command should end.

@@ -20,14 +20,13 @@ import frc.robot.subsystems.AdjustTurretSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.Button;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.commands.ConveyorUpCommand;
-import frc.robot.commands.ConveyorDownCommand;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.PneumaticCommand;
 import frc.robot.commands.TestTurretAdjustCommand;
 import frc.robot.commands.AdjustTurretCommand;
 import frc.robot.commands.FlyWheelCommand;
 import frc.robot.Constants;
+import frc.robot.commands.Conveyor.*;
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -132,6 +131,9 @@ public class RobotContainer {
     m_adjustturretsubsystem.setDefaultCommand(new TestTurretAdjustCommand(m_adjustturretsubsystem,
                                                           () -> testing.getRawAxis(Constants.TEST_LEFT_Y_AXIS),
                                                           () -> testing.getRawAxis(Constants.TEST_RIGHT_Y_AXIS)));
+    m_conveyorsubsystem.setDefaultCommand(new Stage12ConveyorCommand(m_conveyorsubsystem, 
+                                                          () -> opController.getRawAxis(Constants.OPERATOR_LEFT_Y_AXIS)));
+            
 
 
 
@@ -149,8 +151,6 @@ public class RobotContainer {
   private void configureButtonBindings() {
 
     A_Button.whenPressed(new PneumaticCommand(m_pneumaticsubsystem));
-    LB_Button.whileHeld(new ConveyorUpCommand(m_conveyorsubsystem));
-    RB_Button.whileHeld(new ConveyorDownCommand(m_conveyorsubsystem));
     //Make button for Shooting
     X_Button.whileHeld(new AdjustTurretCommand(m_adjustturretsubsystem));
     Y_Button.toggleWhenPressed(new FlyWheelCommand(m_flywheelsubsystem));

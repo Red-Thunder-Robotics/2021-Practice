@@ -17,24 +17,29 @@ public class ConveyorSubsystem extends SubsystemBase {
   /**
    * Creates a new ConveyorSubsystem.
    */
-
-  public VictorSPX conveyorMotor = new VictorSPX(Constants.CONVEYOR_MOTOR);
+  public VictorSPX stage1Motor = new VictorSPX(Constants.STAGE_1_MOTOR);
+  public VictorSPX stage2Motor = new VictorSPX(Constants.STAGE_2_MOTOR);
+  public VictorSPX stage3Motor = new VictorSPX(Constants.STAGE_3_MOTOR);
 
   public ConveyorSubsystem() {
 
   }
+  public void stage1Conveyor(double speed){
+    stage1Motor.set(ControlMode.PercentOutput, speed);
 
-  public void upConveyor(){
-    conveyorMotor.set(ControlMode.PercentOutput, .4);
   }
 
-  public void downConveyor(){
-    conveyorMotor.set(ControlMode.PercentOutput, -.4);
+  public void stage2Conveyor(double speed){
+    stage2Motor.set(ControlMode.PercentOutput, speed);
+
   }
 
-  public void stopConveyor(){
-    conveyorMotor.set(ControlMode.PercentOutput, 0);
+  public void stage3Conveyor(double speed){
+    stage3Motor.set(ControlMode.PercentOutput, speed);
+
   }
+
+
 
   @Override
   public void periodic() {

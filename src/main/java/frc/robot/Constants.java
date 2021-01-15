@@ -34,12 +34,14 @@ public final class Constants {
     public static final int DRIVE_RIGHT_Y_AXIS = 5;
 
     public static final int OPERATOR_CONTROLLER = 1; // Operator Controller ID
-    public static final int OPERATOR_X_AXIS = 0;
-    public static final int OPERATOR_Y_AXIS = 1;
-    public static final int OPERATOR_Z_AXIS = 2;
-    public static final int OPERATOR_SLIDER = 3;
+    public static final int OPERATOR_LEFT_X_AXIS = 0;
+    public static final int OPERATOR_LEFT_Y_AXIS = 1;
+    public static final int OPERATOR_LEFT_TRIGGER = 2;
+    public static final int OPERATOR_RIGHT_TRIGGER = 3;
+    public static final int OPERATOR_RIGHT_X_AXIS = 4;
+    public static final int OPERATOR_RIGHT_Y_AXIS = 5;
 
-    public static final int TESTING_CONTROLLER = 5;
+    public static final int TESTING_CONTROLLER = 5;  // Testing Controller ID
     public static final int TEST_LEFT_X_AXIS = 0;
     public static final int TEST_LEFT_Y_AXIS = 1;
     public static final int TEST_LEFT_TRIGGER = 2;
@@ -55,7 +57,9 @@ public final class Constants {
 
     // Conveyor motors
 
-    public static final int CONVEYOR_MOTOR = 20;
+    public static final int STAGE_1_MOTOR = 22;
+	public static final int STAGE_2_MOTOR = 23;
+	public static final int STAGE_3_MOTOR = 21;
     
     //Shooter Motors
 
@@ -63,4 +67,5 @@ public final class Constants {
 	public static final int HOOD_ADJUST_MOTOR_CAN = 6;  // Is not wired yet as of making this, need to change based on wiring
 	public static final int FLYWHEEL_RIGHT_CAN = 9;  //These motors are set as 9 and 5 right now, this can change.
 	public static final int FLYWHEEL_LEFT_CAN = 5;
+	
 }
