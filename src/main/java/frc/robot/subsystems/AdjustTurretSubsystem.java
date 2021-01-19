@@ -16,6 +16,7 @@ import frc.robot.Constants;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 
 public class AdjustTurretSubsystem extends SubsystemBase {
@@ -24,7 +25,7 @@ public class AdjustTurretSubsystem extends SubsystemBase {
    */
 
   public TalonSRX hoodAdjustMotor = new TalonSRX(Constants.HOOD_ADJUST_MOTOR_CAN); 
-  public TalonSRX turret = new TalonSRX(Constants.SHOOTER_X_ADJUST);
+  public VictorSPX turret = new VictorSPX(Constants.SHOOTER_X_ADJUST);
 
   Boolean onTarget;
 
