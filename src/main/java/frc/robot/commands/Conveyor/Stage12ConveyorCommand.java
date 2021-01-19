@@ -16,6 +16,8 @@ public class Stage12ConveyorCommand extends CommandBase {
 
   private final Stage12ConveyorSubsystem conveyorSubsystem;
   private final DoubleSupplier speed;
+  private final Double speedConstant = 0.5;
+
   /**
    * Creates a new Stage12ConveyorCommand.
    */
@@ -34,8 +36,8 @@ public class Stage12ConveyorCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    conveyorSubsystem.stage1Conveyor(speed.getAsDouble());
-    conveyorSubsystem.stage2Conveyor(-1* speed.getAsDouble());
+    conveyorSubsystem.stage1Conveyor(speedConstant * speed.getAsDouble());
+    conveyorSubsystem.stage2Conveyor(speedConstant* -1 * speed.getAsDouble());
   }
 
   // Called once the command ends or is interrupted.

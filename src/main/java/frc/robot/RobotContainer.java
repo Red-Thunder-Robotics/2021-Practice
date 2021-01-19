@@ -42,6 +42,7 @@ public class RobotContainer {
   private final Stage12ConveyorSubsystem m_stage12conveyorsubsystem = new Stage12ConveyorSubsystem();
   private final AdjustTurretSubsystem m_adjustturretsubsystem = new AdjustTurretSubsystem();
   private final FlywheelSubsystem m_flywheelsubsystem = new FlywheelSubsystem();
+  
 
   Command m_autonomousCommand;
   SendableChooser<Command> m_chooser = new SendableChooser<>();
@@ -151,10 +152,13 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
 
-    A_Button.whenPressed(new PneumaticCommand(m_pneumaticsubsystem));
+    A_Button.whileActiveOnce(new PneumaticCommand(m_pneumaticsubsystem));
+
     //Make button for Shooting
     X_Button.whileHeld(new AdjustTurretCommand(m_adjustturretsubsystem));
     Y_Button.toggleWhenPressed(new FlyWheelCommand(m_flywheelsubsystem));
+    //Trying to make the pneumatic system toggle on a button push
+    //B_Button.whenPressed(Sol::toggle, m_pneumaticsubsystem);
 
   }
 

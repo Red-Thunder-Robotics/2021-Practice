@@ -27,16 +27,14 @@ public class PneumaticCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(pnuematicsubsystem.getSolStatus() == true){
       pnuematicsubsystem.setLowGear();
-    } else {
-      pnuematicsubsystem.setHighGear();
-    }
+  
 
     SmartDashboard.putBoolean("Transmission", pnuematicsubsystem.getSolStatus());    
   }
@@ -44,6 +42,7 @@ public class PneumaticCommand extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    pnuematicsubsystem.setHighGear();
   }
 
   // Returns true when the command should end.
