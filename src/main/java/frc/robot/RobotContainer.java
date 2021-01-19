@@ -18,10 +18,10 @@ import frc.robot.subsystems.FlywheelSubsystem;
 import frc.robot.subsystems.PneumaticSubsystem;
 import frc.robot.subsystems.AdjustTurretSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.Button;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.DriveCommand;
-import frc.robot.commands.PneumaticCommand;
 import frc.robot.commands.TestTurretAdjustCommand;
 import frc.robot.commands.AdjustTurretCommand;
 import frc.robot.commands.FlyWheelCommand;
@@ -134,8 +134,7 @@ public class RobotContainer {
                                                           () -> testing.getRawAxis(Constants.TEST_RIGHT_Y_AXIS)));
     m_stage12conveyorsubsystem.setDefaultCommand(new Stage12ConveyorCommand(m_stage12conveyorsubsystem, 
                                                           () -> opController.getRawAxis(Constants.OPERATOR_LEFT_Y_AXIS)));
-    
-            
+
 
 
 
@@ -152,11 +151,11 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
 
-    A_Button.whileActiveOnce(new PneumaticCommand(m_pneumaticsubsystem));
-
+    A_Button.whenPressed(new InstantCommand(() -> m_pneumaticsubsystem.toggleGear()));
     //Make button for Shooting
-    X_Button.whileHeld(new AdjustTurretCommand(m_adjustturretsubsystem));
-    Y_Button.toggleWhenPressed(new FlyWheelCommand(m_flywheelsubsystem));
+    OP_X_Button.whileHeld(new AdjustTurretCommand(m_adjustturretsubsystem));
+    
+    OP_Y_Button.toggleWhenPressed(new FlyWheelCommand(m_flywheelsubsystem));
     //Trying to make the pneumatic system toggle on a button push
     //B_Button.whenPressed(Sol::toggle, m_pneumaticsubsystem);
 

@@ -10,6 +10,7 @@ package frc.robot.subsystems;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -26,6 +27,8 @@ public class AdjustTurretSubsystem extends SubsystemBase {
 
   public TalonSRX hoodAdjustMotor = new TalonSRX(Constants.HOOD_ADJUST_MOTOR_CAN); 
   public VictorSPX turret = new VictorSPX(Constants.SHOOTER_X_ADJUST);
+  public DigitalInput hoodLimit = new DigitalInput(0);
+
 
   Boolean onTarget;
 
@@ -116,13 +119,14 @@ public class AdjustTurretSubsystem extends SubsystemBase {
     double min_Command = 0.08f;
 
     if (getTV() == 1) {
+    
       double heading_error = -tx;
       double Turret_adjust = 0.0f;
 
-      if (tx > 12.0) {
-        Turret_adjust = Math.sin((Math.PI/40)*heading_error) - min_Command;
-      } else if(tx < -12.0){
-          Turret_adjust = Math.sin((Math.PI/40)*heading_error) + min_Command;
+      if (tx > 3.0) {
+        Turret_adjust = 0.25*Math.sin((Math.PI/40)*heading_error) - min_Command;
+      } else if(tx < -3.0){
+          Turret_adjust = 0.25*Math.sin((Math.PI/40)*heading_error) + min_Command;
       }
 
       setTurretSpeed(-Turret_adjust);
@@ -140,7 +144,7 @@ public class AdjustTurretSubsystem extends SubsystemBase {
     // Talon encoder has 4096 encoder units per rotation
     public void adjustYShooter(){
 
-      hoodAdjustMotor.set(ControlMode.Position, 100);
+      hoodAdjustMotor.set(ControlMode.Position, 0);
       hoodAdjustMotor.getSelectedSensorPosition();
 
       /*
@@ -171,26 +175,29 @@ public class AdjustTurretSubsystem extends SubsystemBase {
 
  public void testAdjustXShooter(Double rotation) {
 
-  setTurretSpeed(rotation);
+  setTurretSpeed(0.2 * rotation);
   SmartDashboard.putNumber("Manual turret x speed", getTX());
 
  }
 
  public void testAdjustYHood(Double rotation){
-
-  hoodAdjustMotor.set(ControlMode.PercentOutput, rotation);
+  
+    hoodAdjustMotor.set(ControlMode.PercentOutput, 0.1 * rotation);
+ 
+  
   SmartDashboard.putNumber("Hood adjust motor encoder value", hoodAdjustMotor.getSelectedSensorPosition());
+  SmartDashboard.putBoolean("Hood close/open", hoodLimit.get());
  }
 
 
  public void displayOnTarget(){ //Displays when the turret is on target
 
   if(getTX() < 3 && getTX() > -3){
-    if(hoodAdjustMotor.getBusVoltage() == 0){
+    
       onTarget = true;
     } else {
       onTarget = false;
-    }
+    
   }
    SmartDashboard.putBoolean("Turret on Target", onTarget);
 

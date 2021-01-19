@@ -36,13 +36,12 @@ public class PneumaticCommand extends CommandBase {
       pnuematicsubsystem.setLowGear();
   
 
-    SmartDashboard.putBoolean("Transmission", pnuematicsubsystem.getSolStatus());    
+    SmartDashboard.putString("Transmission", pnuematicsubsystem.getSolStatus());    
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    pnuematicsubsystem.setHighGear();
   }
 
   // Returns true when the command should end.

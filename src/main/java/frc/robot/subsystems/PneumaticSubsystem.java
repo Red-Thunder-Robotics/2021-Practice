@@ -30,8 +30,20 @@ public class PneumaticSubsystem extends SubsystemBase {
     Sol.set(false);
   }
 
-  public boolean getSolStatus(){
-    return Sol.get();
+  public void toggleGear(){
+    if(Sol.get() == true){
+      Sol.set(false);
+    } else{
+      Sol.set(true);
+    }
+  }
+
+  public String getSolStatus(){
+    if(Sol.get() == true){
+      return "LOW";
+    } else {
+      return "HIGH";
+    }
   }
 
   @Override
