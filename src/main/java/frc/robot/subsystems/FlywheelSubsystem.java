@@ -32,7 +32,7 @@ public class FlywheelSubsystem extends SubsystemBase {
   public void FlyWheelUp(){
 
     //SmartDashboard.putBoolean("Flywheel status", true);
-    double startup = .000001;
+    double startup = .00001;
     double flySpeedRight = 0.0;
     double flySpeedLeft = 0.0;
     while(flyWheelRight.getMotorOutputPercent() > -0.60 && flyWheelLeft.getMotorOutputPercent() < 0.60){

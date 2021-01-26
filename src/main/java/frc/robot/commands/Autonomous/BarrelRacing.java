@@ -5,33 +5,22 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
-
-import java.util.function.DoubleSupplier;
+package frc.robot.commands.Autonomous;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DriveSubsystem;
 
-public class DriveCommand extends CommandBase {
+public class BarrelRacing extends CommandBase {
 
   private final DriveSubsystem driveSubsystem;
-  private final DoubleSupplier movingForward;
-  private final DoubleSupplier movingBackward;
-  private final DoubleSupplier turning;
-  private final DoubleSupplier stopping;
   /**
-   * Creates a new DriveCommand.
+   * Creates a new BarrelRacing.
    */
-  public DriveCommand(DriveSubsystem subsystem, DoubleSupplier forward, DoubleSupplier backward, DoubleSupplier rotation, DoubleSupplier stop) {
-    driveSubsystem = subsystem;
-    movingForward = forward;
-    movingBackward = backward;
-    stopping = stop;
-    turning = rotation;
-    
-    // Use addRequirements() here to declare subsystem dependencies.
+  public BarrelRacing(DriveSubsystem subsystem) {
 
+    driveSubsystem = subsystem;
+    // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(subsystem);
   }
 
@@ -44,12 +33,9 @@ public class DriveCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-      SmartDashboard.putNumber("Gyro", driveSubsystem.getGyro());
-      double xMotion = movingForward.getAsDouble() - movingBackward.getAsDouble(); 
+    SmartDashboard.putNumber("Gyro", driveSubsystem.getGyro());
+    driveSubsystem.barrelRacing();
 
-      driveSubsystem.RocketLeagueDrive(xMotion, turning.getAsDouble(), stopping.getAsDouble());
-
-      driveSubsystem.getRightMotorSpeed();
 
   }
 

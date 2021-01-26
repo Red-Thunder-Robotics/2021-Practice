@@ -7,50 +7,30 @@
 
 package frc.robot.commands;
 
-import java.util.function.DoubleSupplier;
-
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.FlywheelSubsystem;
 
-public class DriveCommand extends CommandBase {
+public class FlyWheelOff extends CommandBase {
 
-  private final DriveSubsystem driveSubsystem;
-  private final DoubleSupplier movingForward;
-  private final DoubleSupplier movingBackward;
-  private final DoubleSupplier turning;
-  private final DoubleSupplier stopping;
+  FlywheelSubsystem flywheelSubsystem;
   /**
-   * Creates a new DriveCommand.
+   * Creates a new FlyWheelOff.
    */
-  public DriveCommand(DriveSubsystem subsystem, DoubleSupplier forward, DoubleSupplier backward, DoubleSupplier rotation, DoubleSupplier stop) {
-    driveSubsystem = subsystem;
-    movingForward = forward;
-    movingBackward = backward;
-    stopping = stop;
-    turning = rotation;
-    
+  public FlyWheelOff(FlywheelSubsystem subsystem) {
+    flywheelSubsystem = subsystem;
     // Use addRequirements() here to declare subsystem dependencies.
-
     addRequirements(subsystem);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    driveSubsystem.resetGyro();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-      SmartDashboard.putNumber("Gyro", driveSubsystem.getGyro());
-      double xMotion = movingForward.getAsDouble() - movingBackward.getAsDouble(); 
-
-      driveSubsystem.RocketLeagueDrive(xMotion, turning.getAsDouble(), stopping.getAsDouble());
-
-      driveSubsystem.getRightMotorSpeed();
-
+    flywheelSubsystem.FlyWheelOff();
   }
 
   // Called once the command ends or is interrupted.

@@ -24,9 +24,11 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.TestTurretAdjustCommand;
 import frc.robot.commands.AdjustTurretCommand;
-import frc.robot.commands.FlyWheelCommand;
+import frc.robot.commands.FlyWheelOn;
+import frc.robot.commands.FlyWheelOff;
 import frc.robot.Constants;
 import frc.robot.commands.Conveyor.*;
+import frc.robot.commands.Autonomous.*;
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -74,13 +76,13 @@ public class RobotContainer {
   Button OP_A_Button = new JoystickButton(opController, 1);
   Button OP_B_Button = new JoystickButton(opController, 2);
   Button OP_X_Button = new JoystickButton(opController, 3);
-  Button OP_Y_Button = new JoystickButton(driverController, 4);
-  Button OP_LB_Button = new JoystickButton(driverController, 5);
-  Button OP_RB_Button = new JoystickButton(driverController, 6);
-  Button OP_Select_Button = new JoystickButton(driverController, 7);
-  Button OP_Start_Button = new JoystickButton(driverController, 8);
-  Button OP_Left_Stick_Button = new JoystickButton(driverController, 9);
-  Button OP_Right_Stick_Button = new JoystickButton(driverController, 10);
+  Button OP_Y_Button = new JoystickButton(opController, 4);
+  Button OP_LB_Button = new JoystickButton(opController, 5);
+  Button OP_RB_Button = new JoystickButton(opController, 6);
+  Button OP_Select_Button = new JoystickButton(opController, 7);
+  Button OP_Start_Button = new JoystickButton(opController, 8);
+  Button OP_Left_Stick_Button = new JoystickButton(opController, 9);
+  Button OP_Right_Stick_Button = new JoystickButton(opController, 10);
 
   //Joystick Buttons - 1/15 Chose to use xBox controller instead of Thrustmaster
 
@@ -128,7 +130,8 @@ public class RobotContainer {
     m_drivesubsystem.setDefaultCommand(new DriveCommand(m_drivesubsystem, 
                                                           () -> driverController.getRawAxis(Constants.DRIVE_RIGHT_TRIGGER), 
                                                           () -> driverController.getRawAxis(Constants.DRIVE_LEFT_TRIGGER),
-                                                          () -> driverController.getRawAxis(Constants.DRIVE_RIGHT_X_AXIS)));
+                                                          () -> driverController.getRawAxis(Constants.DRIVE_RIGHT_X_AXIS),
+                                                          () -> driverController.getRawAxis(Constants.DRIVE_LEFT_Y_AXIS)));
     m_adjustturretsubsystem.setDefaultCommand(new TestTurretAdjustCommand(m_adjustturretsubsystem,
                                                           () -> testing.getRawAxis(Constants.TEST_LEFT_Y_AXIS),
                                                           () -> testing.getRawAxis(Constants.TEST_RIGHT_Y_AXIS)));
@@ -139,7 +142,11 @@ public class RobotContainer {
 
 
     //Creates tab for Autonomous on shuffleboard and selects what is available
+
     Shuffleboard.getTab("Autonomous").add(m_chooser);
+
+    m_chooser.addOption("Barrel Racing", new BarrelRacing(m_drivesubsystem));
+    m_chooser.addOption("Bounce Path", new BouncePath(m_drivesubsystem));
                                                    
   }
 
@@ -155,9 +162,9 @@ public class RobotContainer {
     //Make button for Shooting
     OP_X_Button.whileHeld(new AdjustTurretCommand(m_adjustturretsubsystem));
     
-    OP_Y_Button.toggleWhenPressed(new FlyWheelCommand(m_flywheelsubsystem));
-    //Trying to make the pneumatic system toggle on a button push
-    //B_Button.whenPressed(Sol::toggle, m_pneumaticsubsystem);
+    OP_Y_Button.whenPressed(new FlyWheelOn(m_flywheelsubsystem));
+    OP_B_Button.whenPressed(new FlyWheelOff(m_flywheelsubsystem));
+    
 
   }
 

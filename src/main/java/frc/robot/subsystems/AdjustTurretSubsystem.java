@@ -97,11 +97,11 @@ public class AdjustTurretSubsystem extends SubsystemBase {
     boolean target;
 
     if(tx > 1  || tx <-1){
-      target = true;
-    } else {
       target = false;
+    } else {
+      target = true;
     }
-    SmartDashboard.putBoolean("Has Target?", target);
+    SmartDashboard.putBoolean("SHOOT?", target);
 
   }
 
@@ -180,28 +180,21 @@ public class AdjustTurretSubsystem extends SubsystemBase {
 
  }
 
+
  public void testAdjustYHood(Double rotation){
   
-    hoodAdjustMotor.set(ControlMode.PercentOutput, 0.1 * rotation);
+    if(hoodLimit.get() == false){
+      hoodAdjustMotor.setSelectedSensorPosition(0);
+    }
+    
+
+    hoodAdjustMotor.set(ControlMode.PercentOutput, 0.6 * rotation);
+    SmartDashboard.putNumber("Hood Encoder", hoodAdjustMotor.getSelectedSensorPosition());
+    SmartDashboard.putBoolean("Hood close/open", hoodLimit.get());
+ }
+
+
  
-  
-  SmartDashboard.putNumber("Hood adjust motor encoder value", hoodAdjustMotor.getSelectedSensorPosition());
-  SmartDashboard.putBoolean("Hood close/open", hoodLimit.get());
- }
-
-
- public void displayOnTarget(){ //Displays when the turret is on target
-
-  if(getTX() < 3 && getTX() > -3){
-    
-      onTarget = true;
-    } else {
-      onTarget = false;
-    
-  }
-   SmartDashboard.putBoolean("Turret on Target", onTarget);
-
- }
   
   @Override
   public void periodic() {

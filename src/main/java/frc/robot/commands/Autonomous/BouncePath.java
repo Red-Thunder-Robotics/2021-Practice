@@ -5,33 +5,20 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
+package frc.robot.commands.Autonomous;
 
-import java.util.function.DoubleSupplier;
-
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DriveSubsystem;
 
-public class DriveCommand extends CommandBase {
+public class BouncePath extends CommandBase {
 
   private final DriveSubsystem driveSubsystem;
-  private final DoubleSupplier movingForward;
-  private final DoubleSupplier movingBackward;
-  private final DoubleSupplier turning;
-  private final DoubleSupplier stopping;
   /**
-   * Creates a new DriveCommand.
+   * Creates a new BouncePath.
    */
-  public DriveCommand(DriveSubsystem subsystem, DoubleSupplier forward, DoubleSupplier backward, DoubleSupplier rotation, DoubleSupplier stop) {
+  public BouncePath(DriveSubsystem subsystem) {
     driveSubsystem = subsystem;
-    movingForward = forward;
-    movingBackward = backward;
-    stopping = stop;
-    turning = rotation;
-    
     // Use addRequirements() here to declare subsystem dependencies.
-
     addRequirements(subsystem);
   }
 
@@ -44,13 +31,7 @@ public class DriveCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-      SmartDashboard.putNumber("Gyro", driveSubsystem.getGyro());
-      double xMotion = movingForward.getAsDouble() - movingBackward.getAsDouble(); 
-
-      driveSubsystem.RocketLeagueDrive(xMotion, turning.getAsDouble(), stopping.getAsDouble());
-
-      driveSubsystem.getRightMotorSpeed();
-
+    driveSubsystem.getGyro();
   }
 
   // Called once the command ends or is interrupted.
