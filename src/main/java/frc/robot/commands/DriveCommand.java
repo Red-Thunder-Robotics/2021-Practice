@@ -38,7 +38,9 @@ public class DriveCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    driveSubsystem.resetGyro();
+    
+    
+    //driveSubsystem.resetGyro();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -50,7 +52,6 @@ public class DriveCommand extends CommandBase {
 
       driveSubsystem.RocketLeagueDrive(xMotion, turning.getAsDouble(), stopping.getAsDouble());
 
-      SmartDashboard.putString("WTF", "WTF");
 
 
   }

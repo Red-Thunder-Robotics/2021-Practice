@@ -24,7 +24,7 @@ public class Stage12ConveyorSubsystem extends SubsystemBase {
 
   }
   public void stage1Conveyor(double speed){
-    double speedConstant = 0.75;
+    double speedConstant = 0.90;
     stage1Motor.set(ControlMode.PercentOutput, speedConstant*speed);
 
   }
