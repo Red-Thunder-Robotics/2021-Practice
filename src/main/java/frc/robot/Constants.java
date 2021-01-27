@@ -71,5 +71,10 @@ public final class Constants {
     //Elevator Motors
 
     public static final int ELEVATOR_MOTOR = 7;
+
+    //Encoder Conversion Factor
+
+    public static double ENCODER_CONVERSION = (33.5 / 13.476218);
+
 	
 }

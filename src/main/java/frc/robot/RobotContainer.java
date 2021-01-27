@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import frc.robot.subsystems.Stage12ConveyorSubsystem;
+import frc.robot.subsystems.Stage3ConveyorSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.FlywheelSubsystem;
 import frc.robot.subsystems.PneumaticSubsystem;
@@ -42,6 +43,7 @@ public class RobotContainer {
   private final DriveSubsystem m_drivesubsystem = new DriveSubsystem();
   private final PneumaticSubsystem m_pneumaticsubsystem = new PneumaticSubsystem();
   private final Stage12ConveyorSubsystem m_stage12conveyorsubsystem = new Stage12ConveyorSubsystem();
+  private final Stage3ConveyorSubsystem m_stage3conveyorsubsystem = new Stage3ConveyorSubsystem();
   private final AdjustTurretSubsystem m_adjustturretsubsystem = new AdjustTurretSubsystem();
   private final FlywheelSubsystem m_flywheelsubsystem = new FlywheelSubsystem();
   
@@ -137,6 +139,9 @@ public class RobotContainer {
                                                           () -> testing.getRawAxis(Constants.TEST_RIGHT_Y_AXIS)));
     m_stage12conveyorsubsystem.setDefaultCommand(new Stage12ConveyorCommand(m_stage12conveyorsubsystem, 
                                                           () -> opController.getRawAxis(Constants.OPERATOR_LEFT_Y_AXIS)));
+    m_stage3conveyorsubsystem.setDefaultCommand((new Stage3ConveyorCommand(m_stage3conveyorsubsystem,
+                                                          () -> opController.getRawAxis(Constants.OPERATOR_RIGHT_Y_AXIS))));
+                                                  
 
 
 

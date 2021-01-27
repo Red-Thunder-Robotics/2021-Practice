@@ -7,6 +7,7 @@
 
 package frc.robot.subsystems;
 
+import com.revrobotics.CANEncoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
@@ -39,12 +40,17 @@ public class DriveSubsystem extends SubsystemBase {
 
    public DifferentialDrive differentialRocketLeagueDrive = new DifferentialDrive(leftGroup, rightGroup);
 
+   // Create encoder from Spark MAX
+
+   public CANEncoder leftEncoder = new CANEncoder(frontLeft);
+   public CANEncoder rightEncoder = new CANEncoder(frontRight);
+
 
   public void RocketLeagueDrive(double speed, double turn, double stop){
     double turning = 0.0;
     double moving = 0.0;
-    double driveSpeed = 0.65; // Max drivespeed
-    double rotateSpeed = 0.50; // How fast the bot turns while moving forward/backward
+    double driveSpeed = 0.75; // Max drivespeed
+    double rotateSpeed = 0.55; // How fast the bot turns while moving forward/backward
     double swivel = 0.45;  //How fast the bot pivots in place
     if(Math.abs(stop) > 0.5){
       frontLeft.setIdleMode(IdleMode.kBrake);
@@ -81,6 +87,34 @@ public class DriveSubsystem extends SubsystemBase {
 
   //AUTONOMOUS COMMANDS
 
+  public void setBrakeMode(){
+    frontLeft.setIdleMode(IdleMode.kBrake);
+    backLeft.setIdleMode(IdleMode.kBrake);
+    frontRight.setIdleMode(IdleMode.kBrake);
+    backRight.setIdleMode(IdleMode.kBrake);
+  }
+
+  public void setCoastMode(){
+    frontLeft.setIdleMode(IdleMode.kCoast);
+    backLeft.setIdleMode(IdleMode.kCoast);
+    frontRight.setIdleMode(IdleMode.kCoast);
+    backRight.setIdleMode(IdleMode.kCoast);
+  }
+
+  public double getleftEncoder(){
+
+    leftEncoder.setPositionConversionFactor(Constants.ENCODER_CONVERSION);
+
+    return leftEncoder.getPosition();
+  }
+
+  public double getrightEncoder(){
+
+    rightEncoder.setPositionConversionFactor(Constants.ENCODER_CONVERSION);
+
+    return rightEncoder.getPosition();
+  }
+
   public void resetGyro(){
     gyro.reset();
   }
@@ -92,6 +126,8 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   public void barrelRacing(){
+
+
     gyro.getAngle();
 
   }

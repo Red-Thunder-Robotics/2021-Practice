@@ -182,13 +182,15 @@ public class AdjustTurretSubsystem extends SubsystemBase {
 
 
  public void testAdjustYHood(Double rotation){
+
+    double hoodConstant = 0.25;
   
     if(hoodLimit.get() == false){
       hoodAdjustMotor.setSelectedSensorPosition(0);
     }
     
 
-    hoodAdjustMotor.set(ControlMode.PercentOutput, 0.6 * rotation);
+    hoodAdjustMotor.set(ControlMode.PercentOutput, hoodConstant * rotation);
     SmartDashboard.putNumber("Hood Encoder", hoodAdjustMotor.getSelectedSensorPosition());
     SmartDashboard.putBoolean("Hood close/open", hoodLimit.get());
  }

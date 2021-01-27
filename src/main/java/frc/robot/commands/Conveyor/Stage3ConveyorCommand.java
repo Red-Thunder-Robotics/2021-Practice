@@ -23,6 +23,7 @@ public class Stage3ConveyorCommand extends CommandBase {
     stage3ConveyorSubsystem = subsystem;
     speed = rawspeed;
     // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(subsystem);
   }
 
   // Called when the command is initially scheduled.

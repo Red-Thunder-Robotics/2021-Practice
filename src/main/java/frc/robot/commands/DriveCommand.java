@@ -44,12 +44,14 @@ public class DriveCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+
       SmartDashboard.putNumber("Gyro", driveSubsystem.getGyro());
       double xMotion = movingForward.getAsDouble() - movingBackward.getAsDouble(); 
 
       driveSubsystem.RocketLeagueDrive(xMotion, turning.getAsDouble(), stopping.getAsDouble());
 
-      driveSubsystem.getRightMotorSpeed();
+      SmartDashboard.putString("WTF", "WTF");
+
 
   }
 
