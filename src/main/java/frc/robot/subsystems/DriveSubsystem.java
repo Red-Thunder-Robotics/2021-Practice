@@ -42,8 +42,13 @@ public class DriveSubsystem extends SubsystemBase {
 
    // Create encoder from Spark MAX
 
-   public CANEncoder leftEncoder = new CANEncoder(frontLeft);
-   public CANEncoder rightEncoder = new CANEncoder(frontRight);
+   public CANEncoder leftEncoder = frontLeft.getEncoder();
+   public CANEncoder rightEncoder = frontRight.getEncoder();
+
+
+   // Photon Camera
+
+   //PhotonCamera camera = new PhotonCamera("My Camera");
 
 
   public void RocketLeagueDrive(double speed, double turn, double stop){
@@ -113,7 +118,6 @@ public class DriveSubsystem extends SubsystemBase {
   public double getrightEncoder(){
 
     rightEncoder.setPositionConversionFactor(Constants.ENCODER_CONVERSION);
-
     return rightEncoder.getPosition();
   }
 
