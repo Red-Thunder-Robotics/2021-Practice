@@ -20,6 +20,7 @@ import org.photonvision.PhotonTrackedTarget;
 
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
+import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.geometry.Transform2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -50,29 +51,19 @@ public class DriveSubsystem extends SubsystemBase {
   public CANEncoder rightEncoder = frontRight.getEncoder();
 
    // Photon Camera
-
+  PhotonCamera camera = new PhotonCamera("photonvision");
+  PIDController controller = new PIDController(.1, 0, 0);
   double range = 10.0;  // Degrees of range that it treats as being "on target"
 
-  PhotonCamera camera = new PhotonCamera("My Camera");
+  
 
-  PhotonPipelineResult result = camera.getLatestResult();
+  
 
-  boolean hasTargets = result.hasTargets();
+ 
 
-  List<PhotonTrackedTarget> targets = result.getTargets();
-
-  PhotonTrackedTarget target = result.getBestTarget();
-
-  double yaw = target.getYaw();
-  double pitch = target.getPitch();
-  double area = target.getArea();
-  double skew = target.getSkew();
-
-  Transform2d pose = target.getCameraToTarget();
-
-  static final double kCameraHeight = 0.51; // meters
-  static final double kCameraPitch = 0.436; // radians
-  static final double kTargetHeight = 2.44; // meters
+  // static final double kCameraHeight = 0.51; // meters
+  // static final double kCameraPitch = 0.436; // radians
+  // static final double kTargetHeight = 2.44; // meters
 
   // Get distance to target.
   //  double distanceMeters = PhotonUtils.calculateDistanceToTargetMeters(
@@ -168,53 +159,58 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   public void galactic(){
-
+    double rotationSpeed;
+    double forwardSpeed = 0.0;
     resetGyro();
 
+
+    //PhotonPipelineResult result = camera.getLatestResult();
+    var result = camera.getLatestResult();
+
+    boolean hasTargets = result.hasTargets();
+    List<PhotonTrackedTarget> targets = result.getTargets();
+    PhotonTrackedTarget target = result.getBestTarget();
+    Transform2d pose = target.getCameraToTarget();
     setBrakeMode();
 
-    if(hasTargets = true){
-      if(target.getYaw() > range || target.getYaw() < - range){
-        if(target.getYaw() > range){
-          leftGroup.set(.45);
-          rightGroup.set(.45);
-        } else if (target.getYaw() < - range){
-          leftGroup.set(-.45);
-          rightGroup.set(-.45);
-        } 
-      } else if(target.getYaw() < range && target.getYaw() > -range){
-          leftGroup.set(.50);
-          rightGroup.set(-.50);
-      }
-    }
-  }
-
-  public boolean targetObtained(){
-
-    if(target.getYaw() < range && target.getYaw() > - range){
-      return true;
+    if(result.hasTargets()){
+     rotationSpeed = controller.calculate(result.getBestTarget().getYaw(), 0);
+      
     } else{
-      return false;
+      rotationSpeed = 0.0;
     }
     
+    SmartDashboard.putNumber("RotationSpeed", rotationSpeed);
+    SmartDashboard.putNumber("ForwardSpeed", forwardSpeed);
+    differentialRocketLeagueDrive.arcadeDrive(forwardSpeed, rotationSpeed);
   }
+
+  // public boolean targetObtained(){
+
+  //   if(target.getYaw() < range && target.getYaw() > - range){
+  //     return true;
+  //   } else{
+  //     return false;
+  //   }
+    
+  // }
   
 
-  public double getYaw(){
-    return target.getYaw();
-  }
+  // public double getYaw(){
+  //   return target.getYaw();
+  // }
 
-  public double getPitch(){
-    return target.getPitch();
-  }
+  // public double getPitch(){
+  //   return target.getPitch();
+  // }
 
-  public double getSkew(){
-    return target.getSkew();
-  }
+  // public double getSkew(){
+  //   return target.getSkew();
+  // }
 
-  public double getArea(){
-    return target.getArea();
-  }
+  // public double getArea(){
+  //   return target.getArea();
+  // }
 
   public DriveSubsystem() {
 

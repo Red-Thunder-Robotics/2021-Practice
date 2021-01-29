@@ -34,11 +34,11 @@ public class Galactic extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(driveSubsystem.targetObtained() == true){
-      stage12ConveyorSubsystem.stage1Conveyor(.75);
-      stage12ConveyorSubsystem.stage2Conveyor(.90);
-    }
-    driveSubsystem.galactic();
+  //   if(driveSubsystem.targetObtained() == true){
+  //     stage12ConveyorSubsystem.stage1Conveyor(.75);
+  //     stage12ConveyorSubsystem.stage2Conveyor(.90);
+  //   }
+  //   driveSubsystem.galactic();
   }
 
   // Called once the command ends or is interrupted.
