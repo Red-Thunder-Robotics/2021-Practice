@@ -9,17 +9,21 @@ package frc.robot.commands.Autonomous;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.Stage12ConveyorSubsystem;
 
 public class Galactic extends CommandBase {
 
   private final DriveSubsystem driveSubsystem;
+  private final Stage12ConveyorSubsystem stage12ConveyorSubsystem;
   /**
    * Creates a new GalacticB2.
    */
-  public Galactic(DriveSubsystem subsystem) {
+  public Galactic(DriveSubsystem subsystem, Stage12ConveyorSubsystem subsystem2) {
     driveSubsystem = subsystem;
+    stage12ConveyorSubsystem = subsystem2;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(subsystem);
+    addRequirements(subsystem2);
   }
 
   // Called when the command is initially scheduled.
@@ -31,7 +35,8 @@ public class Galactic extends CommandBase {
   @Override
   public void execute() {
     if(driveSubsystem.targetObtained() == true){
-      
+      stage12ConveyorSubsystem.stage1Conveyor(.75);
+      stage12ConveyorSubsystem.stage2Conveyor(.90);
     }
     driveSubsystem.galactic();
   }

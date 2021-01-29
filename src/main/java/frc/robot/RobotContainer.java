@@ -152,6 +152,7 @@ public class RobotContainer {
 
     m_chooser.addOption("Barrel Racing", new BarrelRacing(m_drivesubsystem));
     m_chooser.addOption("Bounce Path", new BouncePath(m_drivesubsystem));
+    m_chooser.addOption("Galactic", new Galactic(m_drivesubsystem, m_stage12conveyorsubsystem));
                                                    
   }
 

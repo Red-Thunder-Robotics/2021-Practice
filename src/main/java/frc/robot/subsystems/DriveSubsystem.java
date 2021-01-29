@@ -27,10 +27,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class DriveSubsystem extends SubsystemBase {
-  /**
-   * Creates a new DriveSubsystem.
-   */
-
+ 
   public CANSparkMax frontLeft = new CANSparkMax(Constants.FRONT_LEFT_MOTOR_CAN, MotorType.kBrushless);
   public CANSparkMax frontRight = new CANSparkMax(Constants.FRONT_RIGHT_MOTOR_CAN, MotorType.kBrushless);
   public CANSparkMax backLeft = new CANSparkMax(Constants.BACK_LEFT_MOTOR_CAN, MotorType.kBrushless);
@@ -52,7 +49,6 @@ public class DriveSubsystem extends SubsystemBase {
   public CANEncoder leftEncoder = frontLeft.getEncoder();
   public CANEncoder rightEncoder = frontRight.getEncoder();
 
-
    // Photon Camera
 
   double range = 10.0;  // Degrees of range that it treats as being "on target"
@@ -62,14 +58,6 @@ public class DriveSubsystem extends SubsystemBase {
   PhotonPipelineResult result = camera.getLatestResult();
 
   boolean hasTargets = result.hasTargets();
-
-  public boolean targetObtained(){
-
-    if(target.getYaw() > range || target.getYaw() < - range){
-
-    }
-    return result.hasTargets();
-  }
 
   List<PhotonTrackedTarget> targets = result.getTargets();
 
@@ -185,8 +173,6 @@ public class DriveSubsystem extends SubsystemBase {
 
     setBrakeMode();
 
- 
-
     if(hasTargets = true){
       if(target.getYaw() > range || target.getYaw() < - range){
         if(target.getYaw() > range){
@@ -201,6 +187,16 @@ public class DriveSubsystem extends SubsystemBase {
           rightGroup.set(-.50);
       }
     }
+  }
+
+  public boolean targetObtained(){
+
+    if(target.getYaw() < range && target.getYaw() > - range){
+      return true;
+    } else{
+      return false;
+    }
+    
   }
   
 
