@@ -7,14 +7,21 @@
 
 package frc.robot.subsystems;
 
+import java.util.List;
+
 import com.revrobotics.CANEncoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import org.photonvision.PhotonCamera;
+import org.photonvision.PhotonPipelineResult;
+import org.photonvision.PhotonTrackedTarget;
+
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.geometry.Transform2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -24,32 +31,66 @@ public class DriveSubsystem extends SubsystemBase {
    * Creates a new DriveSubsystem.
    */
 
-   public CANSparkMax frontLeft = new CANSparkMax(Constants.FRONT_LEFT_MOTOR_CAN, MotorType.kBrushless);
-   public CANSparkMax frontRight = new CANSparkMax(Constants.FRONT_RIGHT_MOTOR_CAN, MotorType.kBrushless);
-   public CANSparkMax backLeft = new CANSparkMax(Constants.BACK_LEFT_MOTOR_CAN, MotorType.kBrushless);
-   public CANSparkMax backRight = new CANSparkMax(Constants.BACK_RIGHT_MOTOR_CAN, MotorType.kBrushless);
+  public CANSparkMax frontLeft = new CANSparkMax(Constants.FRONT_LEFT_MOTOR_CAN, MotorType.kBrushless);
+  public CANSparkMax frontRight = new CANSparkMax(Constants.FRONT_RIGHT_MOTOR_CAN, MotorType.kBrushless);
+  public CANSparkMax backLeft = new CANSparkMax(Constants.BACK_LEFT_MOTOR_CAN, MotorType.kBrushless);
+  public CANSparkMax backRight = new CANSparkMax(Constants.BACK_RIGHT_MOTOR_CAN, MotorType.kBrushless);
 
-   ADXRS450_Gyro gyro = new ADXRS450_Gyro();
+  ADXRS450_Gyro gyro = new ADXRS450_Gyro();
 
    // Group motors
 
-   public SpeedControllerGroup leftGroup = new SpeedControllerGroup(frontLeft, backLeft);
-   public SpeedControllerGroup rightGroup = new SpeedControllerGroup(frontRight, backRight);
+  public SpeedControllerGroup leftGroup = new SpeedControllerGroup(frontLeft, backLeft);
+  public SpeedControllerGroup rightGroup = new SpeedControllerGroup(frontRight, backRight);
    
    // Defining Differential Drive
 
-   public DifferentialDrive differentialRocketLeagueDrive = new DifferentialDrive(leftGroup, rightGroup);
+  public DifferentialDrive differentialRocketLeagueDrive = new DifferentialDrive(leftGroup, rightGroup);
 
    // Create encoder from Spark MAX
 
-   public CANEncoder leftEncoder = frontLeft.getEncoder();
-   public CANEncoder rightEncoder = frontRight.getEncoder();
+  public CANEncoder leftEncoder = frontLeft.getEncoder();
+  public CANEncoder rightEncoder = frontRight.getEncoder();
 
 
    // Photon Camera
 
-   //PhotonCamera camera = new PhotonCamera("My Camera");
+  double range = 10.0;  // Degrees of range that it treats as being "on target"
 
+  PhotonCamera camera = new PhotonCamera("My Camera");
+
+  PhotonPipelineResult result = camera.getLatestResult();
+
+  boolean hasTargets = result.hasTargets();
+
+  public boolean targetObtained(){
+
+    if(target.getYaw() > range || target.getYaw() < - range){
+
+    }
+    return result.hasTargets();
+  }
+
+  List<PhotonTrackedTarget> targets = result.getTargets();
+
+  PhotonTrackedTarget target = result.getBestTarget();
+
+  double yaw = target.getYaw();
+  double pitch = target.getPitch();
+  double area = target.getArea();
+  double skew = target.getSkew();
+
+  Transform2d pose = target.getCameraToTarget();
+
+  static final double kCameraHeight = 0.51; // meters
+  static final double kCameraPitch = 0.436; // radians
+  static final double kTargetHeight = 2.44; // meters
+
+  // Get distance to target.
+  //  double distanceMeters = PhotonUtils.calculateDistanceToTargetMeters(
+  //    kCameraHeight, kTargetHeight, kCameraPitch, Math.toRadians(camera.getFirstTargetPitch()));
+
+  // DRIVE TRAIN
 
   public void RocketLeagueDrive(double speed, double turn, double stop){
     double turning = 0.0;
@@ -92,7 +133,7 @@ public class DriveSubsystem extends SubsystemBase {
 
   
 
-  //AUTONOMOUS COMMANDS
+  //AUTONOMOUS METHODS
 
   public void setBrakeMode(){
     frontLeft.setIdleMode(IdleMode.kBrake);
@@ -131,11 +172,52 @@ public class DriveSubsystem extends SubsystemBase {
 
   }
 
+  //  AUTONOMOUS COMMAND METHODS
+
   public void barrelRacing(){
-
-
     gyro.getAngle();
 
+  }
+
+  public void galactic(){
+
+    resetGyro();
+
+    setBrakeMode();
+
+ 
+
+    if(hasTargets = true){
+      if(target.getYaw() > range || target.getYaw() < - range){
+        if(target.getYaw() > range){
+          leftGroup.set(.45);
+          rightGroup.set(.45);
+        } else if (target.getYaw() < - range){
+          leftGroup.set(-.45);
+          rightGroup.set(-.45);
+        } 
+      } else if(target.getYaw() < range && target.getYaw() > -range){
+          leftGroup.set(.50);
+          rightGroup.set(-.50);
+      }
+    }
+  }
+  
+
+  public double getYaw(){
+    return target.getYaw();
+  }
+
+  public double getPitch(){
+    return target.getPitch();
+  }
+
+  public double getSkew(){
+    return target.getSkew();
+  }
+
+  public double getArea(){
+    return target.getArea();
   }
 
   public DriveSubsystem() {

@@ -8,13 +8,18 @@
 package frc.robot.commands.Autonomous;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.DriveSubsystem;
 
-public class GalacticB1 extends CommandBase {
+public class Galactic extends CommandBase {
+
+  private final DriveSubsystem driveSubsystem;
   /**
-   * Creates a new GalacticB1.
+   * Creates a new GalacticB2.
    */
-  public GalacticB1() {
+  public Galactic(DriveSubsystem subsystem) {
+    driveSubsystem = subsystem;
     // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(subsystem);
   }
 
   // Called when the command is initially scheduled.
@@ -25,6 +30,10 @@ public class GalacticB1 extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    if(driveSubsystem.targetObtained() == true){
+      
+    }
+    driveSubsystem.galactic();
   }
 
   // Called once the command ends or is interrupted.
