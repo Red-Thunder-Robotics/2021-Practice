@@ -149,6 +149,9 @@ public class RobotContainer {
     //Creates tab for Autonomous on shuffleboard and selects what is available
 
     Shuffleboard.getTab("Autonomous").add(m_chooser);
+    
+    m_chooser.addOption("Galactic", new Galactic(m_drivesubsystem, m_stage12conveyorsubsystem,
+     m_drivesubsystem.galacticTurn1(), m_drivesubsystem.galacticTurn2()));
 
     m_chooser.addOption("Barrel Racing", new BarrelRacing(m_drivesubsystem));
     m_chooser.addOption("Bounce Path", new BouncePath(m_drivesubsystem));

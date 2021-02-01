@@ -15,14 +15,13 @@ import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import org.photonvision.PhotonCamera;
-import org.photonvision.PhotonPipelineResult;
 import org.photonvision.PhotonTrackedTarget;
+import org.photonvision.PhotonUtils;
 
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-import edu.wpi.first.wpilibj.geometry.Transform2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -55,6 +54,10 @@ public class DriveSubsystem extends SubsystemBase {
   PIDController controller = new PIDController(.1, 0, 0);
   double range = 10.0;  // Degrees of range that it treats as being "on target"
 
+  static final double kCameraHeight = 0.2794; // meters
+  static final double kCameraPitch = 0.0; // radians
+  static final double kTargetHeight = 0.0889; // meters
+
   
 
   
@@ -72,6 +75,7 @@ public class DriveSubsystem extends SubsystemBase {
   // DRIVE TRAIN
 
   public void RocketLeagueDrive(double speed, double turn, double stop){
+  
     double turning = 0.0;
     double moving = 0.0;
     double driveSpeed = 0.75; // Max drivespeed
@@ -158,59 +162,80 @@ public class DriveSubsystem extends SubsystemBase {
 
   }
 
-  public void galactic(){
+  public String galacticTurn1(){
+    String turn1 = "ERROR"; 
+    var result = camera.getLatestResult();
+    List<PhotonTrackedTarget> targets = result.getTargets();
+
+
+    double cell0 = targets.get(0).getYaw();
+    double cell1 = targets.get(1).getYaw();
+    
+
+    double distanceMeters = PhotonUtils.calculateDistanceToTargetMeters(
+      kCameraHeight, kTargetHeight, kCameraPitch, Math.toRadians(result.getBestTarget().getPitch()));
+    
+    SmartDashboard.putNumber("Distance Meters", distanceMeters);
+
+    if(targets.size()> 2){
+      if(result.hasTargets()){
+        if(cell1 > cell0 ){  //Cell1 is to the right of cell0
+          turn1 = "RIGHT";  // true = turn right
+        } else if(cell1 < cell0){ // cell1 is to the left of cell0
+          turn1 = "LEFT"; // false = turn left
+        }
+      }
+
+    } 
+    return turn1;
+
+  }
+
+  public String galacticTurn2(){
+    // SCREWING AROUND
+    String turn2 = "ERROR";
+    var result = camera.getLatestResult();
+    List<PhotonTrackedTarget> targets = result.getTargets();
+
+    double cell1 = targets.get(1).getYaw();
+    double cell2 = targets.get(2).getYaw();
+
+    if(targets.size() > 2){
+      if(result.hasTargets()){
+        if(cell2 > cell1){ //cell2 is to the right of cell1
+          turn2 = "RIGHT";  // true = turn right
+        } else if(cell2 < cell1){ //cell2 is to the left cell1
+          turn2 = "LEFT"; // false = turn left
+        }
+      }
+    }
+    return turn2;
+  }
+
+  public void galactic(boolean turn1, boolean turn2){
     double rotationSpeed;
     double forwardSpeed = 0.0;
-    resetGyro();
-
 
     //PhotonPipelineResult result = camera.getLatestResult();
     var result = camera.getLatestResult();
 
-    boolean hasTargets = result.hasTargets();
-    List<PhotonTrackedTarget> targets = result.getTargets();
-    PhotonTrackedTarget target = result.getBestTarget();
-    Transform2d pose = target.getCameraToTarget();
     setBrakeMode();
 
     if(result.hasTargets()){
      rotationSpeed = controller.calculate(result.getBestTarget().getYaw(), 0);
+
       
     } else{
       rotationSpeed = 0.0;
     }
-    
+
     SmartDashboard.putNumber("RotationSpeed", rotationSpeed);
     SmartDashboard.putNumber("ForwardSpeed", forwardSpeed);
+
+
     differentialRocketLeagueDrive.arcadeDrive(forwardSpeed, rotationSpeed);
   }
 
-  // public boolean targetObtained(){
-
-  //   if(target.getYaw() < range && target.getYaw() > - range){
-  //     return true;
-  //   } else{
-  //     return false;
-  //   }
-    
-  // }
-  
-
-  // public double getYaw(){
-  //   return target.getYaw();
-  // }
-
-  // public double getPitch(){
-  //   return target.getPitch();
-  // }
-
-  // public double getSkew(){
-  //   return target.getSkew();
-  // }
-
-  // public double getArea(){
-  //   return target.getArea();
-  // }
 
   public DriveSubsystem() {
 
