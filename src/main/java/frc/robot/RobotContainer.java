@@ -152,7 +152,7 @@ public class RobotContainer {
     Shuffleboard.getTab("Autonomous").add(m_chooser);
 
     m_chooser.addOption("Galactic", new GalacticSequential(m_drivesubsystem, m_stage12conveyorsubsystem, 
-      m_drivesubsystem.galacticTurn1(), m_drivesubsystem.galacticTurn2(), m_drivesubsystem.getGyro()));
+      m_drivesubsystem.galacticTurn1(), m_drivesubsystem.galacticTurn2(), m_drivesubsystem.getGalDistance()));
 
     m_chooser.addOption("Barrel Racing", new BarrelRacing(m_drivesubsystem));
     m_chooser.addOption("Bounce Path", new BouncePath(m_drivesubsystem));

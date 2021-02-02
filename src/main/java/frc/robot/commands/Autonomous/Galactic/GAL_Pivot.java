@@ -45,6 +45,9 @@ public class GAL_Pivot extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    if(driveSubsystem.getGALYaw() > 4){
+      return false;
+    }
+    return true;
   }
 }

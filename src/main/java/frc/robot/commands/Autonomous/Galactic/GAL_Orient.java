@@ -8,13 +8,17 @@
 package frc.robot.commands.Autonomous.Galactic;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.DriveSubsystem;
 
 public class GAL_Orient extends CommandBase {
+  DriveSubsystem  drivesubystem;
   /**
    * Creates a new GAL_Orient.
    */
-  public GAL_Orient() {
+  public GAL_Orient(DriveSubsystem subsystem) {
+    drivesubystem = subsystem;
     // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(subsystem);
   }
 
   // Called when the command is initially scheduled.
@@ -25,6 +29,7 @@ public class GAL_Orient extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    drivesubystem.galOrient();
   }
 
   // Called once the command ends or is interrupted.
@@ -35,6 +40,11 @@ public class GAL_Orient extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    if(Math.abs(drivesubystem.getGyro()) > 4){
+      return false;
+      
+    }else{
+      return true;
+    }
   }
 }

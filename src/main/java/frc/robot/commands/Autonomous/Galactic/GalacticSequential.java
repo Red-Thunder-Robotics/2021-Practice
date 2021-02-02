@@ -8,6 +8,7 @@
 package frc.robot.commands.Autonomous.Galactic;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.Stage12ConveyorSubsystem;
@@ -19,11 +20,12 @@ public class GalacticSequential extends SequentialCommandGroup {
   /**
    * Creates a new GalacticSequential.
    */
-  public GalacticSequential(DriveSubsystem drive, Stage12ConveyorSubsystem conveyor, String turn1, String turn2, Double distance) {
+  public GalacticSequential(DriveSubsystem drive, Stage12ConveyorSubsystem conveyor, String turn1, String turn2, double distance) {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());
     super(
       new InstantCommand(() -> drive.resetGyro()), // Sets gyro to zero at beginning
+      new PrintCommand("Gyro succesfully reset"),
       new GAL_Pivot(drive, turn1, turn2), // Turn to cell0
       new InstantCommand(() -> conveyor.stage1Conveyor(1)), // Turn on conveyor
       new InstantCommand(() -> conveyor.stage2Conveyor(1)), // Turn on conveyor

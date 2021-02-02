@@ -86,27 +86,18 @@ public class DriveSubsystem extends SubsystemBase {
     double rotateSpeed = 0.55; // How fast the bot turns while moving forward/backward
     double swivel = 0.45;  //How fast the bot pivots in place
     if(Math.abs(stop) > 0.5){
-      frontLeft.setIdleMode(IdleMode.kBrake);
-      frontRight.setIdleMode(IdleMode.kBrake);
-      backLeft.setIdleMode(IdleMode.kBrake);
-      backRight.setIdleMode(IdleMode.kBrake);
+      setBrakeMode();
     } else if(speed >= 0.10 || speed <= -0.10){
-      frontLeft.setIdleMode(IdleMode.kCoast);
-      frontRight.setIdleMode(IdleMode.kCoast);
-      backLeft.setIdleMode(IdleMode.kCoast);
-      backRight.setIdleMode(IdleMode.kCoast);
+        setCoastMode();
 
         moving = driveSpeed * speed;
         if(Math.abs(turn) > 0.10){
           turning = rotateSpeed * turn;
         }
       } else if(Math.abs(turn) > 0.10){
-        frontLeft.setIdleMode(IdleMode.kCoast);
-        frontRight.setIdleMode(IdleMode.kCoast);
-        backLeft.setIdleMode(IdleMode.kCoast);
-        backRight.setIdleMode(IdleMode.kCoast);
+          setCoastMode();
 
-        turning = swivel * Math.pow(turn, 3);
+          turning = swivel * Math.pow(turn, 3);
       }
 
     differentialRocketLeagueDrive.arcadeDrive(moving, turning);
@@ -158,7 +149,7 @@ public class DriveSubsystem extends SubsystemBase {
     gyro.reset();
   }
 
-  public  double getGyro(){
+  public double getGyro(){
 
     return gyro.getAngle();
 
@@ -170,6 +161,8 @@ public class DriveSubsystem extends SubsystemBase {
     gyro.getAngle();
 
   }
+
+
 
   public String galacticTurn1(){
     String turn1 = "ERROR"; 
@@ -218,7 +211,7 @@ public class DriveSubsystem extends SubsystemBase {
     var result = camera.getLatestResult();
     List<PhotonTrackedTarget> targets = result.getTargets();
 
-    while(targets.get(0).getYaw() > Math.abs(range)){
+    if(targets.get(0).getYaw() > Math.abs(range)){
         if(result.hasTargets() && turn1 != "ERROR" && turn2 != "Error"){ // While it has targets, no errors
           rotationSpeed = 0.25*Math.sin((Math.PI/80)*targets.get(0).getYaw()); // Rotate first to 0, always the closest target
           forwardSpeed = 0.0;
@@ -226,15 +219,35 @@ public class DriveSubsystem extends SubsystemBase {
           rotationSpeed = 0.0;
           forwardSpeed = 0.0;
       }
-      differentialRocketLeagueDrive.arcadeDrive(forwardSpeed, rotationSpeed);
+       
+    } else{
+      rotationSpeed = 0.0;
+      forwardSpeed = 0.0;
+    }
+    differentialRocketLeagueDrive.arcadeDrive(forwardSpeed, rotationSpeed);
+
+  }
+
+  public double getGALYaw(){
+    var result = camera.getLatestResult();
+    List<PhotonTrackedTarget> targets = result.getTargets();
+
+    if(result.hasTargets()){
+      return targets.get(0).getYaw();
+    } else{
+      return 0.0;
     }
   }
 
   public void galOrient(){
+    double error = gyro.getAngle();
+    double kp = 1.0;
+
+    differentialRocketLeagueDrive.tankDrive(kp* error, kp * error);
 
   }
 
-  public double galDistance(){
+  public double getGalDistance(){
     var result = camera.getLatestResult();
     double distanceMeters = PhotonUtils.calculateDistanceToTargetMeters(
       kCameraHeight, kTargetHeight, kCameraPitch, Math.toRadians(result.getBestTarget().getPitch()));
@@ -254,10 +267,14 @@ public class DriveSubsystem extends SubsystemBase {
     } else{
       leftspeed = 0.0;
       rightspeed = 0.0;
-      
+  
     }
 
     differentialRocketLeagueDrive.tankDrive(leftspeed, rightspeed);
+  }
+
+  public void galTurn(String turn1, String turn2){
+
   }
     
        

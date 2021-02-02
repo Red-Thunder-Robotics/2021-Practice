@@ -7,13 +7,14 @@
 
 package frc.robot.commands.Autonomous.Galactic;
 
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DriveSubsystem;
 
 public class GAL_Drive extends CommandBase {
 
   DriveSubsystem driveSubsystem;
-  Double distance;
+  double distance;
   /**
    * Creates a new GAL_Drive.
    */

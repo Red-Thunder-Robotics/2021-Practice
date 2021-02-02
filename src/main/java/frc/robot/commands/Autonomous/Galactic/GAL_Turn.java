@@ -12,11 +12,15 @@ import frc.robot.subsystems.DriveSubsystem;
 
 public class GAL_Turn extends CommandBase {
   DriveSubsystem drivesubsystem;
+  String turn1;
+  String turn2;
   /**
    * Creates a new GAL_Turn.
    */
-  public GAL_Turn(DriveSubsystem subsystem) {
+  public GAL_Turn(DriveSubsystem subsystem, String Turn1, String Turn2) {
     drivesubsystem = subsystem;
+    Turn1 = turn1;
+    Turn2 = turn2;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(subsystem);
   }
@@ -29,6 +33,7 @@ public class GAL_Turn extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    drivesubsystem.galTurn(turn1, turn2);
   }
 
   // Called once the command ends or is interrupted.
