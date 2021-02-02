@@ -30,6 +30,7 @@ import frc.robot.commands.FlyWheelOff;
 import frc.robot.Constants;
 import frc.robot.commands.Conveyor.*;
 import frc.robot.commands.Autonomous.*;
+import frc.robot.commands.Autonomous.Galactic.GalacticSequential;
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -149,9 +150,8 @@ public class RobotContainer {
     //Creates tab for Autonomous on shuffleboard and selects what is available
 
     Shuffleboard.getTab("Autonomous").add(m_chooser);
-    
-    m_chooser.addOption("Galactic", new Galactic(m_drivesubsystem, m_stage12conveyorsubsystem,
-     m_drivesubsystem.galacticTurn1(), m_drivesubsystem.galacticTurn2()));
+
+    m_chooser.addOption("Galactic", new GalacticSequential(m_drivesubsystem, m_stage12conveyorsubsystem, m_drivesubsystem.galacticTurn1(), m_drivesubsystem.galacticTurn2()));
 
     m_chooser.addOption("Barrel Racing", new BarrelRacing(m_drivesubsystem));
     m_chooser.addOption("Bounce Path", new BouncePath(m_drivesubsystem));

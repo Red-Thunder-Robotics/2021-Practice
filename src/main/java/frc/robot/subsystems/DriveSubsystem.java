@@ -51,12 +51,16 @@ public class DriveSubsystem extends SubsystemBase {
 
    // Photon Camera
   PhotonCamera camera = new PhotonCamera("photonvision");
-  PIDController controller = new PIDController(.1, 0, 0);
-  double range = 10.0;  // Degrees of range that it treats as being "on target"
+  PIDController controller = new PIDController(.05, 0, 0);
+
+  double range = 4.0;  // Degrees of range that it treats as being "on target"
 
   static final double kCameraHeight = 0.2794; // meters
   static final double kCameraPitch = 0.0; // radians
   static final double kTargetHeight = 0.0889; // meters
+
+  double cell0;
+  double cell1;
 
   
 
@@ -166,19 +170,11 @@ public class DriveSubsystem extends SubsystemBase {
     String turn1 = "ERROR"; 
     var result = camera.getLatestResult();
     List<PhotonTrackedTarget> targets = result.getTargets();
-
-
-    double cell0 = targets.get(0).getYaw();
-    double cell1 = targets.get(1).getYaw();
     
-
-    double distanceMeters = PhotonUtils.calculateDistanceToTargetMeters(
-      kCameraHeight, kTargetHeight, kCameraPitch, Math.toRadians(result.getBestTarget().getPitch()));
-    
-    SmartDashboard.putNumber("Distance Meters", distanceMeters);
-
-    if(targets.size()> 2){
+    if(targets.size()> 1){
       if(result.hasTargets()){
+        double cell0 = targets.get(0).getYaw();
+        double cell1 = targets.get(1).getYaw();
         if(cell1 > cell0 ){  //Cell1 is to the right of cell0
           turn1 = "RIGHT";  // true = turn right
         } else if(cell1 < cell0){ // cell1 is to the left of cell0
@@ -192,16 +188,15 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   public String galacticTurn2(){
-    // SCREWING AROUND
     String turn2 = "ERROR";
     var result = camera.getLatestResult();
     List<PhotonTrackedTarget> targets = result.getTargets();
 
-    double cell1 = targets.get(1).getYaw();
-    double cell2 = targets.get(2).getYaw();
 
-    if(targets.size() > 2){
+    if(targets.size() > 1){
       if(result.hasTargets()){
+        double cell1 = targets.get(1).getYaw();
+        double cell2 = targets.get(2).getYaw();
         if(cell2 > cell1){ //cell2 is to the right of cell1
           turn2 = "RIGHT";  // true = turn right
         } else if(cell2 < cell1){ //cell2 is to the left cell1
@@ -212,28 +207,58 @@ public class DriveSubsystem extends SubsystemBase {
     return turn2;
   }
 
-  public void galactic(boolean turn1, boolean turn2){
-    double rotationSpeed;
+  public void galactic(String turn1, String turn2){
+    double rotationSpeed = 0.0;
     double forwardSpeed = 0.0;
-
-    //PhotonPipelineResult result = camera.getLatestResult();
+    double heading;
     var result = camera.getLatestResult();
-
+    List<PhotonTrackedTarget> targets = result.getTargets();
     setBrakeMode();
 
-    if(result.hasTargets()){
-     rotationSpeed = controller.calculate(result.getBestTarget().getYaw(), 0);
+    while(targets.get(0).getYaw() > Math.abs(range)){ // While it is not pointed at the first target
+      if(result.hasTargets() && turn1 != "ERROR" && turn2 != "Error"){ // While it has targets, no errors
+        rotationSpeed = 0.25*Math.sin((Math.PI/80)*targets.get(0).getYaw()); // Rotate first
+        forwardSpeed = 0.0;
+      } else{
+        rotationSpeed = 0.0;
+        forwardSpeed = 0.0;
+      }
+      differentialRocketLeagueDrive.arcadeDrive(forwardSpeed, rotationSpeed);
 
-      
-    } else{
-      rotationSpeed = 0.0;
+    } 
+
+    heading = gyro.getAngle(); // Sets "heading" as the direction of the first target
+    double distanceMeters = PhotonUtils.calculateDistanceToTargetMeters(
+      kCameraHeight, kTargetHeight, kCameraPitch, Math.toRadians(result.getBestTarget().getPitch()));
+    double distanceFeet = distanceMeters * 3.281; // Get distance to cell 0
+
+    while (getrightEncoder() < distanceFeet) {  // Travels, using encoders, the distance to cell0
+      if(gyro.getAngle() > heading){ // If too far right
+        rotationSpeed = -.1;
+      } else if(gyro.getAngle() < heading){ // If too far left
+        rotationSpeed = .1;
+      }
+
+      forwardSpeed = 0.60;
+      differentialRocketLeagueDrive.arcadeDrive(forwardSpeed, rotationSpeed);
+
     }
 
-    SmartDashboard.putNumber("RotationSpeed", rotationSpeed);
-    SmartDashboard.putNumber("ForwardSpeed", forwardSpeed);
+    while(Math.abs(gyro.getAngle()) > 2){ // Reset the bot to point zero
+        rotationSpeed = 0.25*Math.sin((Math.PI/80) *gyro.getAngle()); 
+        forwardSpeed = 0.0;
+        differentialRocketLeagueDrive.arcadeDrive(forwardSpeed, rotationSpeed);
+      
+    }
+
+    if(turn1 == "RIGHT"){
+      
+    }else {
+
+    }
 
 
-    differentialRocketLeagueDrive.arcadeDrive(forwardSpeed, rotationSpeed);
+
   }
 
 
