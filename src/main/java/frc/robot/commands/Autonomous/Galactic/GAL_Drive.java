@@ -8,13 +8,20 @@
 package frc.robot.commands.Autonomous.Galactic;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.DriveSubsystem;
 
 public class GAL_Drive extends CommandBase {
+
+  DriveSubsystem driveSubsystem;
+  Double distance;
   /**
    * Creates a new GAL_Drive.
    */
-  public GAL_Drive() {
+  public GAL_Drive(DriveSubsystem subsystem, double m_distance) {
+    m_distance = distance;
+    driveSubsystem = subsystem;
     // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(subsystem);
   }
 
   // Called when the command is initially scheduled.
@@ -25,6 +32,7 @@ public class GAL_Drive extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    driveSubsystem.galDrive(distance);
   }
 
   // Called once the command ends or is interrupted.
@@ -35,6 +43,10 @@ public class GAL_Drive extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    if(driveSubsystem.getleftEncoder() < distance){
+      return false;
+    } else{
+    return true;
+    }
   }
 }

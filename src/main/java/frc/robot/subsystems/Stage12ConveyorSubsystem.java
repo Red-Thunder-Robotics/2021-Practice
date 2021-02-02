@@ -35,6 +35,14 @@ public class Stage12ConveyorSubsystem extends SubsystemBase {
 
   }
 
+  public double getStage1Conveyor(){
+    return stage1Motor.getMotorOutputPercent();
+  }
+
+  public double getStage2Conveyor(){
+    return stage2Motor.getMotorOutputPercent();
+  }
+
  
 
 

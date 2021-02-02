@@ -74,7 +74,7 @@ public final class Constants {
 
     //Encoder Conversion Factor
 
-    public static double ENCODER_CONVERSION = (33.5 / 13.476218);
+    public static double ENCODER_CONVERSION = (33.5 / 13.476218); // Encoder units to inches
 
 	
 }

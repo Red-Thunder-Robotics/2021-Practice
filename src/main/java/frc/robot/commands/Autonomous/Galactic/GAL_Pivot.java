@@ -8,13 +8,22 @@
 package frc.robot.commands.Autonomous.Galactic;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.DriveSubsystem;
 
 public class GAL_Pivot extends CommandBase {
+
+  DriveSubsystem driveSubsystem;
+  String turn1;
+  String turn2;
   /**
    * Creates a new GAL_Pivot.
    */
-  public GAL_Pivot() {
+  public GAL_Pivot(DriveSubsystem subsystem, String Turn1, String Turn2) {
+    Turn1 = turn1;
+    Turn2 = turn2;
+    driveSubsystem = subsystem;
     // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(subsystem);
   }
 
   // Called when the command is initially scheduled.
@@ -25,6 +34,7 @@ public class GAL_Pivot extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    driveSubsystem.galPivot(turn1, turn2);
   }
 
   // Called once the command ends or is interrupted.

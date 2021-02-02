@@ -8,13 +8,17 @@
 package frc.robot.commands.Autonomous.Galactic;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.DriveSubsystem;
 
 public class GAL_Turn extends CommandBase {
+  DriveSubsystem drivesubsystem;
   /**
    * Creates a new GAL_Turn.
    */
-  public GAL_Turn() {
+  public GAL_Turn(DriveSubsystem subsystem) {
+    drivesubsystem = subsystem;
     // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(subsystem);
   }
 
   // Called when the command is initially scheduled.
