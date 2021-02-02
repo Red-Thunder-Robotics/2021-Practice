@@ -100,7 +100,7 @@ public class DriveSubsystem extends SubsystemBase {
           turning = swivel * Math.pow(turn, 3);
       }
 
-    differentialRocketLeagueDrive.arcadeDrive(moving, turning);
+    //differentialRocketLeagueDrive.arcadeDrive(moving, turning);
 
   }
 
@@ -207,24 +207,20 @@ public class DriveSubsystem extends SubsystemBase {
 
   public void galPivot(String turn1, String turn2){
     double rotationSpeed = 0.0;
-    double forwardSpeed = 0.0;
     var result = camera.getLatestResult();
     List<PhotonTrackedTarget> targets = result.getTargets();
 
     if(targets.get(0).getYaw() > Math.abs(range)){
         if(result.hasTargets() && turn1 != "ERROR" && turn2 != "Error"){ // While it has targets, no errors
           rotationSpeed = 0.25*Math.sin((Math.PI/80)*targets.get(0).getYaw()); // Rotate first to 0, always the closest target
-          forwardSpeed = 0.0;
       } else{
           rotationSpeed = 0.0;
-          forwardSpeed = 0.0;
       }
        
     } else{
       rotationSpeed = 0.0;
-      forwardSpeed = 0.0;
     }
-    differentialRocketLeagueDrive.arcadeDrive(forwardSpeed, rotationSpeed);
+    RocketLeagueDrive(0, rotationSpeed, 0.0);
 
   }
 
@@ -243,15 +239,21 @@ public class DriveSubsystem extends SubsystemBase {
     double error = gyro.getAngle();
     double kp = 1.0;
 
-    differentialRocketLeagueDrive.tankDrive(kp* error, kp * error);
+    //differentialRocketLeagueDrive.tankDrive(kp* error, kp * error);
 
   }
 
   public double getGalDistance(){
     var result = camera.getLatestResult();
-    double distanceMeters = PhotonUtils.calculateDistanceToTargetMeters(
-      kCameraHeight, kTargetHeight, kCameraPitch, Math.toRadians(result.getBestTarget().getPitch()));
-    return distanceMeters * 39.372; // returns distance to target in feet
+
+    if(result.hasTargets()){
+      double distanceMeters = PhotonUtils.calculateDistanceToTargetMeters(
+        kCameraHeight, kTargetHeight, kCameraPitch, Math.toRadians(result.getBestTarget().getPitch()));
+      return distanceMeters * 39.372; // returns distance to target in feet
+
+    } else{
+      return 0.0;
+    }
   }
 
   public void galDrive(double distance){
@@ -270,7 +272,7 @@ public class DriveSubsystem extends SubsystemBase {
   
     }
 
-    differentialRocketLeagueDrive.tankDrive(leftspeed, rightspeed);
+    //differentialRocketLeagueDrive.tankDrive(leftspeed, rightspeed);
   }
 
   public void galTurn(String turn1, String turn2){

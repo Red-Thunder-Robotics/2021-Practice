@@ -10,6 +10,7 @@ package frc.robot.commands.Autonomous.Galactic;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.Stage12ConveyorSubsystem;
 
@@ -27,10 +28,12 @@ public class GalacticSequential extends SequentialCommandGroup {
       new InstantCommand(() -> drive.resetGyro()), // Sets gyro to zero at beginning
       new PrintCommand("Gyro succesfully reset"),
       new GAL_Pivot(drive, turn1, turn2), // Turn to cell0
+      //new PrintCommand("Turn 1: " + turn1 + ", Turn 2: " + turn2),
       new InstantCommand(() -> conveyor.stage1Conveyor(1)), // Turn on conveyor
       new InstantCommand(() -> conveyor.stage2Conveyor(1)), // Turn on conveyor
       new InstantCommand(() -> drive.resetEncoders()), // Reset encoders to use in next step
-      new GAL_Drive(drive, distance), // Drive to cell0
+     // new GAL_Drive(drive, distance), // Drive to cell0
+      new WaitCommand(2),
       new InstantCommand(() -> conveyor.stage1Conveyor(0)), // Turn off conveyor 
       new InstantCommand(() -> conveyor.stage2Conveyor(0)) // Turn off conveyor
       // Rotate to zero degrees
